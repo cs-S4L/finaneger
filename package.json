@@ -1,0 +1,30 @@
+{
+  "name": "finaneger",
+  "version": "1.0.0",
+  "description": "Finance Managing App. Final SAE Project by Christopher Schmitz",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cs-S4L/finaneger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cs-S4L/finaneger/issues"
+  },
+  "homepage": "https://github.com/cs-S4L/finaneger#readme",
+  "devDependencies": {
+    "css-loader": "^3.4.1",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.1.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}
