@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import "./sass/main.scss";
+import "../sass/main.scss";
 // import 'sass/main.scss';
 
 function component() {
@@ -12,3 +12,5 @@ function component() {
 }
 
 document.body.appendChild(component());
+
+console.log('index.js loaded');
