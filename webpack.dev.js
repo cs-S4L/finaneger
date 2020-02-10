@@ -8,6 +8,7 @@ const path = require('path');
 //import Plugins
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = merge(common, {
     mode: "development",
@@ -17,6 +18,7 @@ module.exports = merge(common, {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new VueLoaderPlugin(),
         new HTMLWebpackPlugin({
             template: './src/template.html'
         })
@@ -31,6 +33,16 @@ module.exports = merge(common, {
               'sass-loader'
             ],
           },
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader'
+          }
         ]
+    },
+    devServer: {
+      // contentBase: resolve(__dirname, 'src'),
+      // hot: true,
+      // publicPath: '/',
+      historyApiFallback: true,
     },
 });

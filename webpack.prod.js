@@ -11,6 +11,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = merge(common, {
     mode: "production",
@@ -35,8 +36,9 @@ module.exports = merge(common, {
                 removeAttributeQuotes: true,
                 collapseWhitespace: true,
                 removeComments: true,
-            }
-        }),
+            },
+          }),
+        new VueLoaderPlugin(),
     ],
     module: {
         rules: [
@@ -57,6 +59,10 @@ module.exports = merge(common, {
                 presets: ['@babel/preset-env']
               }
             }
+          },
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader'
           }
         ]
     },

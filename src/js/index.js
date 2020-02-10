@@ -1,16 +1,29 @@
-// import _ from 'lodash';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import App from '../vue/App.vue';
 
 import "../sass/main.scss";
-// import 'sass/main.scss';
 
-// function component() {
-//   const element = document.createElement('div');
+import SiteHome from '../vue/sites/SiteHome.vue';
+import SiteFinances from '../vue/sites/SiteFinances.vue';
+import SiteAccounts from '../vue/sites/SiteAccounts.vue';
+import SiteBills from '../vue/sites/SiteBills.vue';
+import SiteFixedCosts from '../vue/sites/SiteFixedCosts.vue';
 
-//   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+Vue.use(VueRouter);
 
-//   return element;
-// }
+const router = new VueRouter({
+    routes: [
+        {path:'/', component: SiteHome},
+        {path:'/finanzen', component: SiteFinances},
+        {path:'/konten', component: SiteAccounts},
+        {path:'/rechnungen', component: SiteBills},
+        {path:'/fixkosten', component: SiteFixedCosts},
+    ],
+    mode: 'history',
+});
 
-// document.body.appendChild(component());
-
-console.log('index.js loaded');
+new Vue({
+    render: h => h(App),
+    router
+}).$mount('#app')
