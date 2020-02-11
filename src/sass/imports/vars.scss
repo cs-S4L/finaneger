@@ -3,6 +3,7 @@
 **/
 $black: #333333;
 $grey: #707070;
+$lightgrey: #DDDDDD;
 $white: #FFFFFF;
 $green: #29BA66;
 $red: #E05353;
@@ -37,6 +38,7 @@ $font-weight--bold: 800;
     Sizes
 **/
 $nav-height: 50px;
+$column-padding: 5px;
 
 /**
     Box-Shadows
@@ -56,3 +58,9 @@ $z-Index--5: 500;
 $z-Index--6: 600;
 $z-Index--7: 700;
 $z-Index--8: 800;
+
+/**
+    Border-Radius
+**/
+$border-radius--1: 3px;
+$border-radius--2: 10px;

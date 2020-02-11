@@ -1,7 +1,7 @@
 module.exports = {
   entry: {
     main: './src/js/index.js',
-    vendor: './src/js/vendor.js'
+    // vendor: './src/js/vendor.js'
   },
   module: {
     rules: [

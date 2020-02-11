@@ -1,6 +1,6 @@
 <template>
-  <div id="site-home" class="site">
-      Home
+  <div id="site-billsEdit" class="site">
+    <h2 class="site-title">Rechnung editieren</h2>
   </div>
 </template>
 

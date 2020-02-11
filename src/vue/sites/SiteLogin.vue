@@ -1,5 +1,5 @@
 <template>
-  <div id="site-login">
+  <div id="site-login" class="site">
       <h2 class="welcome">Herzlich Willkommen bei deinem</h2>
       <h1 class="title">Finaneger</h1>
       <h1 style="text-align: center">Logoplatzhalter</h1>

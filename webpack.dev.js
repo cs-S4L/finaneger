@@ -14,7 +14,8 @@ module.exports = merge(common, {
     mode: "development",
     output: {
         filename: "[name].bundle.js",
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist/"),
+        publicPath: '/',
     },
     plugins: [
         new CleanWebpackPlugin(),
@@ -40,9 +41,11 @@ module.exports = merge(common, {
         ]
     },
     devServer: {
+      port: 8181,
+      contentBase: path.resolve(__dirname, "src"),
+      historyApiFallback: true,
       // contentBase: resolve(__dirname, 'src'),
       // hot: true,
       // publicPath: '/',
-      historyApiFallback: true,
     },
 });

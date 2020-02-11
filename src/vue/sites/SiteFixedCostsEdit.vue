@@ -1,6 +1,6 @@
 <template>
-  <div id="site-home" class="site">
-      Home
+  <div id="site-fixedCostsEdit" class="site">
+    <h2 class="site-title">Fixkosten edit</h2>
   </div>
 </template>
 
