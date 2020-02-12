@@ -7,10 +7,16 @@ class FinanegerApi {
     }
 
     submitAjaxForm(form, success, error) {
+        const action = form.attr('action');
+        const method = form.attr('method');
+
+        if (!action) {console.log('Error! Action missing!'); return}
+        if (!method) {console.log('Error! Method missing!'); return}
+
         this.submitAjax(
             form.serialize(),
-            form.attr('action'),
-            form.attr('method'),
+            action,
+            method,
             success,
             error);
     }

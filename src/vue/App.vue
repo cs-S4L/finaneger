@@ -13,9 +13,24 @@ import Vue from 'vue';
 import AppNavi from './components/AppNavi.vue';
 import SiteLogin from './sites/SiteLogin.vue';
 
+import {Api} from '../js/imports/finanegerApi.js';
+
 export const store = Vue.observable({
-    loggedIn: false,
+    userToken: '',
 });
+
+//check if User is logged In
+Api.submitAjax(
+    '',
+    'login',
+    'POST',
+    (data)=>{
+        if (data) {
+            data = JSON.parse(data);
+            store.userToken = data.userToken;
+        }
+    }
+);
 
 export default {
     name: 'app',
@@ -28,7 +43,7 @@ export default {
     },
     computed: {
         loggedIn() {
-            return store.loggedIn;
+            return store.userToken;
         },
     },
     methods: {

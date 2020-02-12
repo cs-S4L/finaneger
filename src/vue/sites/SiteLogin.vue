@@ -15,7 +15,7 @@
               label="E-Mail"
               type="email"
               name="email" 
-              value="">
+              :value="name">
             </comp-text-field>
           </div>
         </div>
@@ -26,7 +26,7 @@
               label="Passwort"
               type="password"
               name="password" 
-              value="">
+              :value="password">
             </comp-text-field>
           </div>
         </div>
@@ -36,9 +36,9 @@
 
       <div class="divider"></div>
 
-      <form action="#register" id="form-register" class="form form-register" v-bind:class="{error: err_RegisterForm}">
+      <form action="register" id="form-register" method="POST" class="form form-register" v-bind:class="{error: err_RegisterForm}">
         <h2 class="form-title">Oder registriere dich jetzt!</h2>
-        <span class="form-error">Fehlerhafte Eingabe! E-Mail oder Passwort falsch!</span>
+        <span class="form-error">{{err_RegisterForm}}</span>
 
         <div class="row">
           <div class="col">
@@ -110,6 +110,8 @@ export default {
       err_RegisterName: '',
       err_RegisterSurname: '',
       err_RegisterPassword: '',
+      name: '',
+      password: '',
     }
   },
   components: {
@@ -117,19 +119,42 @@ export default {
   },
   computed: {},
   methods: {
-      submitLogin: (e) => {
+      submitLogin: function(e) {
         e.preventDefault();
+
         Api.submitAjaxForm(
           $('#form-log-in'),
-          (data) =>{
-            console.log(data)
-            store.loggedIn = true;        
+          (data) => {
+            data = JSON.parse(data);
+            if (data.error) {
+              this.err_LoginForm = data.error;
+            } else if (data.userToken) {
+              store.userToken = data.userToken;
+            } else {
+              console.log('Error! Something went wrong!');
+            }
           }
         );
       },
-      submitRegister: (e) => {
+      submitRegister: function(e) {
         e.preventDefault();
-        console.log('submitRegister');
+
+        Api.submitAjaxForm(
+          $('#form-register'),
+          (data) => {
+            data = JSON.parse(data);
+            if (data.error) {
+              for (const [key, value] of Object.entries(data.error)) {
+                this[key] = value;
+              }
+            } else if (data.userToken) {
+              store.userToken = data.userToken;
+            } else {
+              console.log('Error! Something went wrong');
+            }
+          }
+        );
+
       }
   }
 }
