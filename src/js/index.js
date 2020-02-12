@@ -14,6 +14,7 @@ import SiteBillsEdit from '../vue/sites/SiteBillsEdit.vue';
 import SiteFixedCosts from '../vue/sites/SiteFixedCosts.vue';
 import SiteFixedCostsEdit from '../vue/sites/SiteFixedCostsEdit.vue';
 
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({

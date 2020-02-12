@@ -4,53 +4,93 @@
       <h1 class="title">Finaneger</h1>
       <h1 style="text-align: center">Logoplatzhalter</h1>
 
-      <form action="#login" id="form-log-in" class="form form-log-in" v-bind:class="{error: loginFormError}">
+      <form action="login" method="POST" id="form-log-in" class="form form-log-in" v-bind:class="{error: err_LoginForm}">
         <h2 class="form-title">Melde dich an!</h2>
         <span class="form-error">Fehlerhafte Eingabe! E-Mail oder Passwort falsch!</span>
 
-        <div class="input input-text">
-          <label for="email">E-Mail</label>
-          <!-- <span class="error">Das ist ein Fehler. Das ist ein Fehler.</span> -->
-          <input type="email" name="email" class="">
+        <div class="row">
+          <div class="col">
+            
+            <comp-text-field 
+              label="E-Mail"
+              type="email"
+              name="email" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
-        <div class="input input-text">
-          <label for="password">Passwort</label>
-          <!-- <span class="error">Das Passwort passt nicht zum </span> -->
-          <input type="password" name="password" class="">
+
+        <div class="row">
+          <div class="col">
+            <comp-text-field 
+              label="Passwort"
+              type="password"
+              name="password" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
+
         <input type="text" value="Login" class="button button--default" v-on:click="submitLogin">
       </form>
 
       <div class="divider"></div>
 
-      <form action="#register" id="form-register" class="form form-register" v-bind:class="{error: registerFormError}">
+      <form action="#register" id="form-register" class="form form-register" v-bind:class="{error: err_RegisterForm}">
         <h2 class="form-title">Oder registriere dich jetzt!</h2>
         <span class="form-error">Fehlerhafte Eingabe! E-Mail oder Passwort falsch!</span>
 
-        <div class="input input-text">
-          <label for="email">E-Mail</label>
-          <span class="error">Error!</span>
-          <input type="email" name="email" class="">
+        <div class="row">
+          <div class="col">
+            <comp-text-field 
+              label="E-Mail"
+              type="email"
+              :error="err_RegisterMail"
+              name="email" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
 
-        <div class="input input-text">
-          <label for="name">Vorname</label>
-          <span class="error">Error</span>
-          <input type="text" name="name" class="">
+        <div class="row">
+          <div class="col">
+            <comp-text-field 
+              label="Vorname"
+              :error="err_RegisterName"
+              name="name" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
 
-        <div class="input input-text">
-          <label for="surname">Name</label>
-          <span class="error">Error!</span>
-          <input type="text" name="surname" class="">
+        <div class="row">
+          <div class="col">
+            <comp-text-field 
+              label="Nachname"
+              :error="err_RegisterSurname"
+              name="surname" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
 
-        <div class="input input-text">
-          <label for="password">Passwort</label>
-          <!-- <span class="error">Das Passwort passt nicht zum </span> -->
-          <input type="password" name="password" class="">
+        <div class="row">
+          <div class="col">
+            <comp-text-field 
+              label="Passwort"
+              type="password"
+              :error="err_RegisterPassword"
+              name="password" 
+              value="">
+            </comp-text-field>
+          </div>
         </div>
-        <input type="text" value="Registrieren" class="button button--default" v-on:click="submitRegister">
+
+        <div class="row">
+          <div class="col">
+            <input type="text" value="Registrieren" class="button button--default" v-on:click="submitRegister">
+          </div>
+        </div>
       </form>
 
   </div>
@@ -58,21 +98,34 @@
 
 <script>
 import {store} from '../App.vue';
+import CompTextField from '../components/CompTextField.vue';
+import {Api} from '../../js/imports/finanegerApi.js';
 
 export default {
   data: function () {
     return {
-      loginFormError: false,
-      registerFormError: false,
+      err_LoginForm: '',
+      err_RegisterForm: '',
+      err_RegisterMail: '',
+      err_RegisterName: '',
+      err_RegisterSurname: '',
+      err_RegisterPassword: '',
     }
   },
-  components: {},
+  components: {
+    CompTextField,
+  },
   computed: {},
   methods: {
       submitLogin: (e) => {
         e.preventDefault();
-        console.log('submitLogin');
-        store.loggedIn = true;
+        Api.submitAjaxForm(
+          $('#form-log-in'),
+          (data) =>{
+            console.log(data)
+            store.loggedIn = true;        
+          }
+        );
       },
       submitRegister: (e) => {
         e.preventDefault();

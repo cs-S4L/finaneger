@@ -14,7 +14,7 @@ import AppNavi from './components/AppNavi.vue';
 import SiteLogin from './sites/SiteLogin.vue';
 
 export const store = Vue.observable({
-    loggedIn: true,
+    loggedIn: false,
 });
 
 export default {

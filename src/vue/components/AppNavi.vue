@@ -5,7 +5,7 @@
           <i class="material-icons account" v-on:click="toggleAccountPopUp">account_circle</i>
 
           <div id="accountPopUp" class="accountPopUp">
-              <button class="button button--default" v-on:click="logout">Logout</button>
+              <button class="button button--default button--small" v-on:click="logout">Logout</button>
           </div>
       </nav>
 
