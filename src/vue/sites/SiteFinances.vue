@@ -5,7 +5,7 @@
         <app-financeList></app-financeList>
 
         <router-link
-            :to="'finanzen/edit/new'"
+            :to="'finanzen/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add

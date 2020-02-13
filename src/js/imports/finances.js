@@ -14,11 +14,19 @@ class Finances {
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    loadFinance(succes, id) {
+    loadFinance(success, id) {
         const params = {
             id
         };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
+    }
+
+    setFinance(success, data) {
+        Api.submitAjax(data, this.endpoint, "set", "POST", success);
+    }
+
+    updateFinance(success, data) {
+        Api.submitAjax(data, this.endpoint, "update", "POST", success);
     }
 }
 
