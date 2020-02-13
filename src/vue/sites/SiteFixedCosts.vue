@@ -5,7 +5,7 @@
         <app-fixedCostsList></app-fixedCostsList>
 
         <router-link
-            :to="'fixkosten/edit/new'"
+            :to="'fixkosten/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add

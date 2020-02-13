@@ -19,11 +19,11 @@ class Bills {
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    setFinance(success, data) {
+    setBill(success, data) {
         Api.submitAjax(data, this.endpoint, "set", "POST", success);
     }
 
-    updateFinance(success, data) {
+    updateBill(success, data) {
         Api.submitAjax(data, this.endpoint, "update", "POST", success);
     }
 }
