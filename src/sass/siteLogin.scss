@@ -1,17 +1,18 @@
 #site-login {
   max-width: 520px;
 
-    h1, h2, h3 {
-      color: $grey;
-    }
-  
-    .welcome {
-      text-align: center;
-      margin: 0 0 10px 0;
-    }
-    .title {
-      text-align: center;
-      margin: 0;
-    }
+  h1,
+  h2,
+  h3 {
+    color: $grey;
   }
-  
+
+  .welcome {
+    text-align: center;
+    margin: 0 0 10px 0;
+  }
+  .title {
+    text-align: center;
+    margin: 0;
+  }
+}
