@@ -41,27 +41,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            accounts.loadAcocunts(
-                data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                    }
-                    for (const [key, value] of Object.entries(data)) {
-                        Vue.set(this.itemList, key, value);
-                    }
-                    var dataLength = Object.keys(data).length;
-                    this.offset += dataLength;
-                    if (dataLength < accounts.limit) {
-                        this.bol_loadMore = false;
-                    }
-                },
-                { limit: accounts.limit, offset: this.offset }
-            );
-        }
-    },
-    mounted: function() {
-        accounts.loadAccounts(
-            data => {
+            accounts.loadAcocunts(data => {
                 if (data) {
                     data = JSON.parse(data);
                 }
@@ -73,9 +53,23 @@ export default {
                 if (dataLength < accounts.limit) {
                     this.bol_loadMore = false;
                 }
-            },
-            { limit: accounts.limit }
-        );
+            }, this.offset);
+        }
+    },
+    mounted: function() {
+        accounts.loadAccounts(data => {
+            if (data) {
+                data = JSON.parse(data);
+            }
+            for (const [key, value] of Object.entries(data)) {
+                Vue.set(this.itemList, key, value);
+            }
+            var dataLength = Object.keys(data).length;
+            this.offset += dataLength;
+            if (dataLength < accounts.limit) {
+                this.bol_loadMore = false;
+            }
+        });
     }
 };
 </script>

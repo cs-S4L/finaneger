@@ -3,10 +3,21 @@ import { Api } from "./finanegerApi.js";
 class Accounts {
     constructor() {
         this.limit = 20;
+        this.endpoint = "Accounts";
     }
 
-    loadAccounts(success, params) {
-        Api.submitAjax(params, "getAccounts", "POST", success);
+    loadAccounts(success, offset = 0, limit = this.limit) {
+        const params = {
+            offset,
+            limit
+        };
+        Api.submitAjax(params, this.endpoint, "get", "POST", success);
+    }
+    loadAccount(succes, id) {
+        const params = {
+            id
+        };
+        Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 }
 

@@ -41,27 +41,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            finances.loadFinances(
-                data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                    }
-                    for (const [key, value] of Object.entries(data)) {
-                        Vue.set(this.itemList, key, value);
-                    }
-                    var dataLength = Object.keys(data).length;
-                    this.offset += dataLength;
-                    if (dataLength < finances.limit) {
-                        this.bol_loadMore = false;
-                    }
-                },
-                { limit: finances.limit, offset: this.offset }
-            );
-        }
-    },
-    mounted: function() {
-        finances.loadFinances(
-            data => {
+            finances.loadFinances(data => {
                 if (data) {
                     data = JSON.parse(data);
                 }
@@ -73,9 +53,23 @@ export default {
                 if (dataLength < finances.limit) {
                     this.bol_loadMore = false;
                 }
-            },
-            { limit: finances.limit }
-        );
+            }, this.offset);
+        }
+    },
+    mounted: function() {
+        finances.loadFinances(data => {
+            if (data) {
+                data = JSON.parse(data);
+            }
+            for (const [key, value] of Object.entries(data)) {
+                Vue.set(this.itemList, key, value);
+            }
+            var dataLength = Object.keys(data).length;
+            this.offset += dataLength;
+            if (dataLength < finances.limit) {
+                this.bol_loadMore = false;
+            }
+        });
     }
 };
 </script>

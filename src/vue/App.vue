@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <site-login v-if="!loggedIn"></site-login>
+    <div id="app">
+        <site-login v-if="!loggedIn"></site-login>
 
-    <app-navi v-if="loggedIn"></app-navi>
+        <app-navi v-if="loggedIn"></app-navi>
 
-    <router-view class="site" v-if="loggedIn"></router-view>
-  </div>
+        <router-view class="site" v-if="loggedIn"></router-view>
+    </div>
 </template>
 
 <script>
@@ -16,37 +16,39 @@ import SiteLogin from "./sites/SiteLogin.vue";
 import { Api } from "../js/imports/finanegerApi.js";
 
 export const store = Vue.observable({
-  userToken: ""
+    userToken: ""
 });
 
 //check if User is logged In
-Api.submitAjax("", "login", "POST", data => {
-  if (data) {
-    data = JSON.parse(data);
-    store.userToken = data.userToken;
-  }
+Api.submitAjax("", "login", "get", "POST", data => {
+    if (data) {
+        data = JSON.parse(data);
+        if (data.userToken && !data.error) {
+            store.userToken = data.userToken;
+        }
+    }
 });
 
 export default {
-  name: "app",
-  components: {
-    AppNavi,
-    SiteLogin
-  },
-  data: function() {
-    return {};
-  },
-  computed: {
-    loggedIn() {
-      return store.userToken;
+    name: "app",
+    components: {
+        AppNavi,
+        SiteLogin
+    },
+    data: function() {
+        return {};
+    },
+    computed: {
+        loggedIn() {
+            return store.userToken;
+        }
+    },
+    methods: {
+        Logout: () => {
+            console.log("logout");
+            // TODO
+        }
     }
-  },
-  methods: {
-    Logout: () => {
-      console.log("logout");
-      // TODO
-    }
-  }
 };
 </script>
 
