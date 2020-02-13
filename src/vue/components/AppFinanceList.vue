@@ -1,5 +1,5 @@
 <template>
-    <div id="app-financeList" class="site">
+    <div id="app-financeList" class="">
         <router-link
             class="list-item"
             :key=""
