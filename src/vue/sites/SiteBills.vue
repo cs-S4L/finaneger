@@ -5,7 +5,7 @@
         <app-billList></app-billList>
 
         <router-link
-            :to="'rechnungen/edit/new'"
+            :to="'rechnungen/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add

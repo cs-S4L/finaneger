@@ -57,7 +57,7 @@ export default {
         }
     },
     mounted: function() {
-        accounts.loadAccounts(data => {
+        accounts.getAccounts(data => {
             if (data) {
                 data = JSON.parse(data);
             }

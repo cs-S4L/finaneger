@@ -41,7 +41,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            finances.loadFinances(data => {
+            finances.getFinances(data => {
                 if (data) {
                     data = JSON.parse(data);
                 }
@@ -57,7 +57,7 @@ export default {
         }
     },
     mounted: function() {
-        finances.loadFinances(data => {
+        finances.getFinances(data => {
             if (data) {
                 data = JSON.parse(data);
             }

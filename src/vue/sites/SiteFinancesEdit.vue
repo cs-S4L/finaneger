@@ -2,12 +2,7 @@
     <div id="site-financesEdit" class="site">
         <h2 class="site-title">Einnahme/Ausgabe editieren {{ id }}</h2>
 
-        <form
-            action="#editFinance"
-            id="form"
-            class="form form-finance"
-            v-bind:class="{ error: formError }"
-        >
+        <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
             <!-- <h2 class="form-title">Melde dich an!</h2> -->
 
             <span class="form-error">{{ formError }}</span>
@@ -117,7 +112,6 @@ import CompSelectField from "../components/CompSelectField.vue";
 import CompTextarea from "../components/CompTextarea.vue";
 
 import { finances } from "../../js/imports/finances.js";
-import Vue from "vue";
 
 export default {
     props: {
@@ -167,7 +161,7 @@ export default {
         submitEdit: function(e) {
             e.preventDefault();
 
-            if (this.id && this.id != "create") {
+            if (this.id && this.id == "create") {
                 finances.setFinance(data => {
                     if (data) {
                         data = JSON.parse(data);
@@ -212,8 +206,8 @@ export default {
         }
     },
     mounted: function() {
-        if (this.id && this.id != "create") {
-            finances.loadFinance(data => {
+        if (this.id) {
+            finances.getFinance(data => {
                 if (data) {
                     data = JSON.parse(data);
                     if (data.item) {

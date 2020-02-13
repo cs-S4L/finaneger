@@ -6,12 +6,12 @@ class FixedCosts {
         this.endpoint = "FixedCosts";
     }
 
-    loadFixedCosts(success, offset = 0, limit = this.limit) {
+    getFixedCosts(success, offset = 0, limit = this.limit) {
         const params = { offset, limit };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    loadFixedCost(success, id) {
+    getFixedCost(success, id) {
         const params = { id };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }

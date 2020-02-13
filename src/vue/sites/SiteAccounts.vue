@@ -5,7 +5,7 @@
         <app-accountList></app-accountList>
 
         <router-link
-            :to="'konten/edit/new'"
+            :to="'konten/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add

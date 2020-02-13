@@ -6,7 +6,7 @@ class Finances {
         this.endpoint = "Finances";
     }
 
-    loadFinances(success, offset = 0, limit = this.limit) {
+    getFinances(success, offset = 0, limit = this.limit) {
         const params = {
             offset,
             limit
@@ -14,7 +14,7 @@ class Finances {
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    loadFinance(success, id) {
+    getFinance(success, id) {
         const params = {
             id
         };

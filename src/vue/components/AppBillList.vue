@@ -41,7 +41,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            bills.loadBills(data => {
+            bills.getBills(data => {
                 if (data) {
                     data = JSON.parse(data);
                 }
@@ -57,7 +57,7 @@ export default {
         }
     },
     mounted: function() {
-        bills.loadBills(data => {
+        bills.getBills(data => {
             if (data) {
                 data = JSON.parse(data);
             }

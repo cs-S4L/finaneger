@@ -42,7 +42,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            fixedCosts.loadFixedCosts(data => {
+            fixedCosts.getFixedCosts(data => {
                 if (data) {
                     data = JSON.parse(data);
                 }
@@ -58,7 +58,7 @@ export default {
         }
     },
     mounted: function() {
-        fixedCosts.loadFixedCosts(data => {
+        fixedCosts.getFixedCosts(data => {
             if (data) {
                 data = JSON.parse(data);
             }
