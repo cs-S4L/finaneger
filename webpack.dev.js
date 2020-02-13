@@ -9,7 +9,6 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-var webpack = require('webpack');
 
 module.exports = merge(common, {
     mode: "development",
@@ -23,10 +22,6 @@ module.exports = merge(common, {
         new VueLoaderPlugin(),
         new HTMLWebpackPlugin({
             template: './src/template.html'
-        }),
-        new webpack.ProvidePlugin({
-          $: 'jquery',
-          jQuery: 'jquery',
         }),
     ],
     module: {
