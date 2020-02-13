@@ -1,14 +1,14 @@
 <template>
-    <div id="app-financeList" class="">
+    <div id="app-billList" class="">
         <router-link
             class="list-item"
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
-            :to="`finanzen/edit/${id}`"
+            :to="`/rechnungen/edit/${id}`"
         >
             <div class="header">
-                <span class="left">{{ item.date }}</span>
+                <span class="right">{{ item.dueDate }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
             <div class="number">{{ item.amount }}</div>
@@ -27,7 +27,7 @@
 <script>
 import Vue from "vue";
 
-import { finances } from "../../js/imports/finances.js";
+import { bills } from "../../js/imports/bills.js";
 
 export default {
     data: function() {
@@ -41,7 +41,7 @@ export default {
     computed: {},
     methods: {
         loadMore: function(e) {
-            finances.loadFinances(
+            bills.loadBills(
                 data => {
                     if (data) {
                         data = JSON.parse(data);
@@ -51,16 +51,16 @@ export default {
                     }
                     var dataLength = Object.keys(data).length;
                     this.offset += dataLength;
-                    if (dataLength < finances.limit) {
+                    if (dataLength < bills.limit) {
                         this.bol_loadMore = false;
                     }
                 },
-                { limit: finances.limit, offset: this.offset }
+                { limit: bills.limit, offset: this.offset }
             );
         }
     },
     mounted: function() {
-        finances.loadFinances(
+        bills.loadBills(
             data => {
                 if (data) {
                     data = JSON.parse(data);
@@ -70,11 +70,11 @@ export default {
                 }
                 var dataLength = Object.keys(data).length;
                 this.offset += dataLength;
-                if (dataLength < finances.limit) {
+                if (dataLength < bills.limit) {
                     this.bol_loadMore = false;
                 }
             },
-            { limit: finances.limit }
+            { limit: bills.limit }
         );
     }
 };

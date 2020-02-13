@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 import AppFinanceList from "../components/AppFinanceList.vue";
 
 export default {
