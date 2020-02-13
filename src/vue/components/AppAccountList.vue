@@ -1,0 +1,83 @@
+<template>
+    <div id="app-accountList" class="">
+        <router-link
+            class="list-item"
+            :key=""
+            v-for="(item, id) in itemList"
+            :id="id"
+            :to="`/konten/edit/${id}`"
+        >
+            <div class="header">
+                <span class="left">{{ item.type }}</span>
+            </div>
+            <div class="text">{{ item.description }}</div>
+            <div class="number">{{ item.balance }}</div>
+        </router-link>
+
+        <button
+            class="button button--blue"
+            v-on:click="loadMore"
+            v-bind:class="{ hide: bol_loadMore }"
+        >
+            Load More
+        </button>
+    </div>
+</template>
+
+<script>
+import Vue from "vue";
+
+import { accounts } from "../../js/imports/accounts.js";
+
+export default {
+    data: function() {
+        return {
+            itemList: {},
+            offset: { default: 0 },
+            bol_loadMore: false
+        };
+    },
+    components: {},
+    computed: {},
+    methods: {
+        loadMore: function(e) {
+            accounts.loadAcocunts(
+                data => {
+                    if (data) {
+                        data = JSON.parse(data);
+                    }
+                    for (const [key, value] of Object.entries(data)) {
+                        Vue.set(this.itemList, key, value);
+                    }
+                    var dataLength = Object.keys(data).length;
+                    this.offset += dataLength;
+                    if (dataLength < accounts.limit) {
+                        this.bol_loadMore = false;
+                    }
+                },
+                { limit: accounts.limit, offset: this.offset }
+            );
+        }
+    },
+    mounted: function() {
+        accounts.loadAccounts(
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                }
+                for (const [key, value] of Object.entries(data)) {
+                    Vue.set(this.itemList, key, value);
+                }
+                var dataLength = Object.keys(data).length;
+                this.offset += dataLength;
+                if (dataLength < accounts.limit) {
+                    this.bol_loadMore = false;
+                }
+            },
+            { limit: accounts.limit }
+        );
+    }
+};
+</script>
+
+<style></style>

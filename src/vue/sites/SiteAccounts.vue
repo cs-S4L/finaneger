@@ -1,27 +1,28 @@
 <template>
-  <div id="site-accounts" class="site">
-    <h2 class="site-title">Konten</h2>
-      
-    <router-link class="list-item" v-bind:to="'/konten/edit'">
-    <!-- <div class="list-item"> -->
-      <div class="header">
-        <span class="left">Girokonto</span>
-      </div>
-      <div class="text">Das ist eine Bezeichnung Für ein Konto</div>
-      <div class="number">-9999,99€</div>
-    <!-- </div> -->
-    </router-link>
-  </div>
+    <div id="site-accounts" class="site">
+        <h2 class="site-title">Konten</h2>
+
+        <app-accountList></app-accountList>
+
+        <router-link
+            :to="'konten/edit/new'"
+            class="material-icons button button--fixed button--round button--white"
+        >
+            add
+        </router-link>
+    </div>
 </template>
 
 <script>
+import AppAccountList from "../components/AppAccountList.vue";
+
 export default {
-  components: {},
-  computed: {},
-  methods: {}
-}
+    components: {
+        AppAccountList
+    },
+    computed: {},
+    methods: {}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
