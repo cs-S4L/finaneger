@@ -1,13 +1,7 @@
-@import 'imports/reset';
-@import 'imports/vars';
-@import 'imports/fonts';
+@import "imports/reset";
+@import "imports/vars";
+@import "imports/fonts";
 
-@import 'global';
+@import "global";
 
-@import 'siteLogin';
-
-// #site-finances {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-// }
+@import "siteLogin";

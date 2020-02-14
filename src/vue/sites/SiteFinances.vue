@@ -2,14 +2,16 @@
     <div id="site-finances" class="site">
         <h2 class="site-title">Ein-/Ausgabe</h2>
 
-        <app-financeList></app-financeList>
+        <span>coming soon!</span>
+
+        <!--<app-financeList></app-financeList>
 
         <router-link
             :to="'finanzen/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add
-        </router-link>
+        </router-link>-->
     </div>
 </template>
 

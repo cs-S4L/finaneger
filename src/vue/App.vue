@@ -58,12 +58,7 @@ export default {
             return store.userToken;
         }
     },
-    methods: {
-        Logout: () => {
-            console.log("logout");
-            // TODO
-        }
-    }
+    methods: {}
 };
 </script>
 

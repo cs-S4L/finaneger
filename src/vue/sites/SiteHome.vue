@@ -1,7 +1,6 @@
 <template>
     <div id="site-home" class="site">
         <h2 class="site-title">Herzlich Willkommen</h2>
-        <p>Zum Prototypen des Finaneger</p>
     </div>
 </template>
 

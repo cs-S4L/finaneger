@@ -3,7 +3,6 @@ var webpack = require("webpack");
 module.exports = {
     entry: {
         main: "./src/js/index.js"
-        // vendor: './src/js/vendor.js'
     },
     module: {
         rules: [

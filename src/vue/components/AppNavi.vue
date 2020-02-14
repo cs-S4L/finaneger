@@ -56,10 +56,8 @@ export default {
             accountPopUp.classList.toggle("active");
         },
         logout: e => {
-            console.log("log out", store.userToken);
             Api.submitAjax({ userToken: store.userToken }, "token", "delete", "POST", data => {
                 if (data) {
-                    console.log(data);
                     data = JSON.parse(data);
                     if (data.success) {
                         store.userToken = "";

@@ -253,7 +253,6 @@ export default {
             accounts.deleteAccount(
                 store.userToken,
                 data => {
-                    console.log(data);
                     if (data) {
                         data = JSON.parse(data);
                         if (data.success) {

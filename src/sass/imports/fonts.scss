@@ -1,9 +1,8 @@
-$material-icons-font-path: '~material-icons/iconfont/';
-@import '~material-icons/iconfont/material-icons.scss';
+$material-icons-font-path: "~material-icons/iconfont/";
+@import "~material-icons/iconfont/material-icons.scss";
 
-$fontPath : '../assets/fonts/';
+$fontPath: "../assets/fonts/";
 
-// @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 @font-face {
     font-family: "Roboto";
     src: url("#{$fontPath}Roboto-Light.ttf");
