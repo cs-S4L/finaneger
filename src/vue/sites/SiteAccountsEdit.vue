@@ -108,19 +108,19 @@
             <input type="hidden" name="id" :value="id" />
 
             <input
-                type="submit"
+                type="button"
                 value="Editieren"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
             <input
-                type="submit"
+                type="button"
                 value="Abbrechen"
                 class="button button--white"
                 v-on:click="abortEdit"
             />
             <input
-                type="submit"
+                type="button"
                 value="Löschen"
                 class="button button--red"
                 v-on:click="deleteAccount"
@@ -198,8 +198,6 @@ export default {
     computed: {},
     methods: {
         submitEdit: function(e) {
-            e.preventDefault();
-
             if (this.id && this.id == "create") {
                 accounts.setAccount(
                     store.userToken,
@@ -252,8 +250,6 @@ export default {
             this.$router.push({ path: "/konten" });
         },
         deleteAccount: function(e) {
-            e.preventDefault();
-
             accounts.deleteAccount(
                 store.userToken,
                 data => {

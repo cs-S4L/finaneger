@@ -11,7 +11,7 @@
                 <span class="left">{{ item.type }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
-            <div class="number">{{ item.balance }}</div>
+            <div class="number currency">{{ item.balance }}</div>
         </router-link>
 
         <button

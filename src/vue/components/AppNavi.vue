@@ -1,7 +1,7 @@
 <template>
     <div id="app-navi">
         <nav>
-            <i id="menu-icon" class="material-icons menu" v-on:click="toggleMenu">menu</i>
+            <i id="menu-icon" class="material-icons menu" v-on:click="toggleMenu"></i>
             <i class="material-icons account" v-on:click="toggleAccountPopUp">account_circle</i>
 
             <div id="accountPopUp" class="accountPopUp">
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { helper } from "../../js/imports/helperFunctions";
 import { Api } from "../../js/imports/finanegerApi.js";
 
 import { store } from "../App.vue";
@@ -41,7 +40,7 @@ function toggleMenu() {
     const menuIcon = document.querySelector("#menu-icon");
     const sideNavi = document.querySelector("#side-navi");
 
-    helper.toogleInnerHTML(menuIcon, "menu_open", "menu");
+    menuIcon.classList.toggle("active");
     sideNavi.classList.toggle("active");
 }
 

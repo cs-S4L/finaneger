@@ -1,17 +1,25 @@
 /**
+	Breakpoints
+**/
+$sm: 420px;
+$md: 765px;
+$lg: 1000px;
+$xlg: 1200px;
+
+/**
     Finaneger Colors
 **/
 $black: #333333;
 $grey: #707070;
-$lightgrey: #DDDDDD;
-$white: #FFFFFF;
-$green: #29BA66;
-$red: #E05353;
-$blue: #5276C7;
+$lightgrey: #dddddd;
+$white: #ffffff;
+$green: #29ba66;
+$red: #e05353;
+$blue: #5276c7;
 
 $error: #721c24;
 
-$background--grey: #F2F6F8;
+$background--grey: #f2f6f8;
 
 $border-color--1: #909090;
 
@@ -39,6 +47,7 @@ $font-weight--bold: 800;
 **/
 $nav-height: 50px;
 $column-padding: 5px;
+$aside-size: 200px;
 
 /**
     Box-Shadows
@@ -64,3 +73,12 @@ $z-Index--8: 800;
 **/
 $border-radius--1: 3px;
 $border-radius--2: 10px;
+
+/**
+	Mixins
+**/
+@mixin respond-to($media) {
+    @media only screen and (min-width: $media) {
+        @content;
+    }
+}

@@ -26,7 +26,8 @@ class FinanegerApi {
             error = this.error;
         }
 
-        const url = `${this.baseUrl}/?endpoint=${endpoint}&action=${action}`;
+        // const url = `${this.baseUrl}/?endpoint=${endpoint}&action=${action}`;
+        const url = `${this.baseUrl}/${endpoint}/${action}`;
 
         $.ajax({
             type: method,

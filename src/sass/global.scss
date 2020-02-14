@@ -91,7 +91,8 @@ video {
 
 body {
     background-color: $background--grey;
-    padding-top: $nav-height;
+    // padding-top: $nav-height;
+    padding: $nav-height 0 0 0;
 } //body
 
 h1 {
@@ -364,9 +365,18 @@ a {
 }
 
 .site {
-    max-width: 1000px;
+    max-width: $lg;
     margin: 0 auto;
     padding: 0 10px;
+
+    @include respond-to($md) {
+        padding: 0 10px 0 $aside-size + 10px;
+        margin: 0;
+    }
+
+    @include respond-to($lg) {
+        padding: 0 10px 0 $aside-size + 25px;
+    }
 }
 
 .divider {
@@ -397,7 +407,34 @@ nav {
     }
 
     .menu {
+        position: relative;
+        height: 36px;
+        width: 36px;
         left: 10px;
+
+        @include respond-to($md) {
+            pointer-events: none;
+        }
+
+        &:after {
+            @extend .material-icons;
+            content: "menu";
+            font-size: 36px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            @include respond-to($md) {
+                content: "menu" !important;
+            }
+        }
+
+        &.active {
+            &:after {
+                content: "menu_open";
+            }
+        }
     }
 
     .account {
@@ -423,7 +460,8 @@ nav {
 } //nav
 
 aside.side-navi {
-    width: 90%;
+    width: 70%;
+    max-width: $md;
     height: 100%;
     height: calc(100% - #{$nav-height});
     position: fixed;
@@ -432,8 +470,13 @@ aside.side-navi {
     background: $white;
     border: 1px solid $border-color--1;
     box-shadow: $box-shadow--1;
-    transition: left 1s;
+    transition: left 0.5s;
     z-index: $z-Index--6;
+
+    @include respond-to($md) {
+        width: $aside-size;
+        left: 0;
+    }
 
     &.active {
         left: 0;
@@ -467,13 +510,17 @@ aside.side-navi {
     justify-content: space-between;
     position: relative;
     width: 100%;
-    max-width: 765px;
     height: 80px;
     padding: 38px 10px 5px 10px;
     background: $white;
     box-shadow: $box-shadow--1;
     margin: 0 0 15px 0;
     text-decoration: none;
+
+    @include respond-to($md) {
+        height: 85px;
+        padding: 40px 10px 10px 10px;
+    }
 
     .header {
         position: absolute;
@@ -486,6 +533,10 @@ aside.side-navi {
         color: $black;
         font-weight: $font-weight--normal;
         font-size: $font-size--medium;
+
+        @include respond-to($md) {
+            height: 32px;
+        }
 
         .right,
         .left {
@@ -522,6 +573,26 @@ aside.side-navi {
         }
         &.green {
             color: $green;
+        }
+
+        &.currency {
+            padding: 0 30px 0 0;
+            position: relative;
+
+            &:after {
+                @extend .material-icons;
+                content: "euro_symbol";
+                position: absolute;
+                right: 7px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 20px;
+                pointer-events: none;
+            }
+
+            input {
+                text-align: right;
+            }
         }
     }
 } //.list-item

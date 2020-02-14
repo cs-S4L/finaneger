@@ -1,17 +1,16 @@
 <template>
-  <div id="site-home" class="site">
-      Home
-  </div>
+    <div id="site-home" class="site">
+        <h2 class="site-title">Herzlich Willkommen</h2>
+        <p>Zum Prototypen des Finaneger</p>
+    </div>
 </template>
 
 <script>
 export default {
-  components: {},
-  computed: {},
-  methods: {}
-}
+    components: {},
+    computed: {},
+    methods: {}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
