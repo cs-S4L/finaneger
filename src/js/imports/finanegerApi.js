@@ -25,15 +25,20 @@ class FinanegerApi {
         if (!error) {
             error = this.error;
         }
+
         const url = `${this.baseUrl}/?endpoint=${endpoint}&action=${action}`;
-        console.log(url);
+
         $.ajax({
             type: method,
             url: url,
-            data: data, // serializes the form's elements.
+            data: data,
             success: success,
             error: error
         });
+    }
+
+    addUserToken($data, $userToken) {
+        return ($data.userToken = $userToken);
     }
 
     defaultError(err) {

@@ -5,7 +5,7 @@
         <h1 style="text-align: center">Logoplatzhalter</h1>
 
         <form
-            action="login"
+            action="token"
             method="POST"
             id="form-log-in"
             class="form form-log-in"
@@ -33,6 +33,9 @@
                 </div>
             </div>
 
+            <input type="hidden" name="hash" :value="hash" />
+            <input type="hidden" name="api_key" :value="api_key" />
+
             <input
                 type="text"
                 value="Login"
@@ -44,7 +47,7 @@
         <div class="divider"></div>
 
         <form
-            action="login"
+            action="user"
             id="form-register"
             method="POST"
             class="form form-register"
@@ -98,6 +101,9 @@
                 </div>
             </div>
 
+            <input type="hidden" name="hash" :value="hash" />
+            <input type="hidden" name="api_key" :value="api_key" />
+
             <div class="row">
                 <div class="col">
                     <input
@@ -117,6 +123,8 @@ import { store } from "../App.vue";
 import CompTextField from "../components/CompTextField.vue";
 import { Api } from "../../js/imports/finanegerApi.js";
 
+import md5 from "blueimp-md5";
+
 export default {
     data: function() {
         return {
@@ -128,22 +136,38 @@ export default {
             err_RegisterPassword: "",
             name: "",
             password: ""
+            // api_key: store.api_key
         };
     },
     components: {
         CompTextField
     },
-    computed: {},
+    computed: {
+        hash: function() {
+            if (!store.api_key || !store.auth_key) {
+                return "";
+            } else {
+                return md5(`${store.api_key}${store.auth_key}`);
+            }
+        },
+        api_key: function() {
+            return `${store.api_key}`;
+        }
+    },
     methods: {
         submitLogin: function(e) {
             e.preventDefault();
 
-            Api.submitAjaxForm($("#form-log-in"), "get", data => {
+            Api.submitAjaxForm($("#form-log-in"), "set", data => {
                 data = JSON.parse(data);
                 if (data.error) {
-                    this.err_LoginForm = data.error;
+                    this.err_LoginForm = data.error.err_LoginForm;
                 } else if (data.userToken) {
                     store.userToken = data.userToken;
+                    store.auth_key = "";
+                    store.api_key = "";
+                    Cookies.set("sessionId", data.userToken.sessionId);
+                    Cookies.set("userId", data.userToken.userId);
                 } else {
                     console.log("Error! Something went wrong!");
                 }
@@ -153,6 +177,8 @@ export default {
             e.preventDefault();
 
             Api.submitAjaxForm($("#form-register"), "set", data => {
+                console.log(data);
+                // return;
                 data = JSON.parse(data);
                 if (data.error) {
                     for (const [key, value] of Object.entries(data.error)) {

@@ -16,18 +16,33 @@ import SiteLogin from "./sites/SiteLogin.vue";
 import { Api } from "../js/imports/finanegerApi.js";
 
 export const store = Vue.observable({
-    userToken: ""
+    userToken: "",
+    auth_key: "",
+    api_key: ""
 });
 
-//check if User is logged In
-Api.submitAjax("", "login", "get", "POST", data => {
-    if (data) {
-        data = JSON.parse(data);
-        if (data.userToken && !data.error) {
-            store.userToken = data.userToken;
-        }
+if (!store.userToken) {
+    const sessionId = Cookies.get("sessionId");
+    const userId = Cookies.get("userId");
+
+    if (sessionId && userId) {
+        store.userToken = {
+            sessionId: sessionId,
+            userId: userId
+        };
+    } else {
+        Api.submitAjax("", "token", "get", "POST", data => {
+            if (data) {
+                data = JSON.parse(data);
+
+                if (data.auth_key && data.api_key) {
+                    store.auth_key = data.auth_key;
+                    store.api_key = data.api_key;
+                }
+            }
+        });
     }
-});
+}
 
 export default {
     name: "app",
