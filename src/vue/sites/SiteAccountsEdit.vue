@@ -42,6 +42,19 @@
 
             <div class="row">
                 <div class="col noPadding">
+                    <comp-select-field
+                        label="Typ"
+                        name="type"
+                        :error="item.type.error"
+                        :value="item.type.value"
+                        :options="accountTypes"
+                    >
+                    </comp-select-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col noPadding">
                     <comp-text-field
                         label="Kontoinhaber"
                         name="owner"
@@ -96,15 +109,21 @@
 
             <input
                 type="submit"
-                value="Login"
+                value="Editieren"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
             <input
                 type="submit"
-                value="abort"
+                value="Abbrechen"
                 class="button button--white"
                 v-on:click="abortEdit"
+            />
+            <input
+                type="submit"
+                value="Löschen"
+                class="button button--red"
+                v-on:click="deleteAccount"
             />
         </form>
     </div>
@@ -117,6 +136,7 @@ import CompTextarea from "../components/CompTextarea.vue";
 import CompCheckbox from "../components/CompCheckbox.vue";
 
 import { accounts } from "../../js/imports/accounts.js";
+import { store } from "../App.vue";
 
 export default {
     props: {
@@ -135,6 +155,10 @@ export default {
                     error: ""
                 },
                 balance: {
+                    value: "",
+                    error: ""
+                },
+                type: {
                     value: "",
                     error: ""
                 },
@@ -158,7 +182,11 @@ export default {
                 //     value: "",
                 //     error: ""
                 // }
-            }
+            },
+            accountTypes: [
+                { name: "Girokonto", value: "checking" },
+                { name: "Sparkonto", value: "saving" }
+            ]
         };
     },
     components: {
@@ -173,65 +201,100 @@ export default {
             e.preventDefault();
 
             if (this.id && this.id == "create") {
-                accounts.setAccount(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/konten" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
+                accounts.setAccount(
+                    store.userToken,
+                    data => {
+                        if (data) {
+                            data = JSON.parse(data);
+                            if (data.success) {
+                                this.$router.push({ path: "/konten" });
                             } else {
-                                console.log("Error! No further Information given!");
+                                if (data.error) {
+                                    for (const [key, value] of Object.entries(data.error)) {
+                                        if (key in this.item) {
+                                            this.item[key].error = value;
+                                        }
+                                    }
+                                } else {
+                                    console.log("Error! No further Information given!");
+                                }
                             }
                         }
-                    }
-                }, $("#form").serialize());
+                    },
+                    $("#form").serialize()
+                );
             } else {
-                accounts.updateAccount(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/konten" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
+                accounts.updateAccount(
+                    store.userToken,
+                    data => {
+                        if (data) {
+                            data = JSON.parse(data);
+                            if (data.success) {
+                                this.$router.push({ path: "/konten" });
                             } else {
-                                console.log("Error! No further Information given!");
+                                if (data.error) {
+                                    for (const [key, value] of Object.entries(data.error)) {
+                                        if (key in this.item) {
+                                            this.item[key].error = value;
+                                        }
+                                    }
+                                } else {
+                                    console.log("Error! No further Information given!");
+                                }
                             }
                         }
-                    }
-                }, $("#form").serialize());
+                    },
+                    $("#form").serialize()
+                );
             }
         },
         abortEdit: function(e) {
-            this.$router.push({ path: "/finanzen" });
+            this.$router.push({ path: "/konten" });
+        },
+        deleteAccount: function(e) {
+            e.preventDefault();
+
+            accounts.deleteAccount(
+                store.userToken,
+                data => {
+                    console.log(data);
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data.success) {
+                            this.$router.push({ path: "/konten" });
+                        } else {
+                            if (data.error) {
+                                for (const [key, value] of Object.entries(data.error)) {
+                                    if (key in this.item) {
+                                        this.item[key].error = value;
+                                    }
+                                }
+                            } else {
+                                console.log("Error! No further Information given!");
+                            }
+                        }
+                    }
+                },
+                $("#form").serialize()
+            );
         }
     },
     mounted: function() {
         if (this.id && this.id != "create") {
-            accounts.getAccount(data => {
-                console.log(data);
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.item) {
-                        const item = data.item;
-                    }
-                    for (const [key, value] of Object.entries(data.item)) {
-                        if (key in this.item) {
-                            this.item[key].value = value;
+            accounts.getAccount(
+                store.userToken,
+                data => {
+                    if (data) {
+                        data = JSON.parse(data);
+                        for (const [key, value] of Object.entries(data.item)) {
+                            if (key in this.item) {
+                                this.item[key].value = value;
+                            }
                         }
                     }
-                }
-            }, this.id);
+                },
+                this.id
+            );
         }
     }
 };

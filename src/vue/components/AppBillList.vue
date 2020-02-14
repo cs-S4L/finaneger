@@ -44,14 +44,14 @@ export default {
             bills.getBills(data => {
                 if (data) {
                     data = JSON.parse(data);
-                }
-                for (const [key, value] of Object.entries(data)) {
-                    Vue.set(this.itemList, key, value);
-                }
-                var dataLength = Object.keys(data).length;
-                this.offset += dataLength;
-                if (dataLength < bills.limit) {
-                    this.bol_loadMore = false;
+                    for (const [key, value] of Object.entries(data)) {
+                        Vue.set(this.itemList, key, value);
+                    }
+                    var dataLength = Object.keys(data).length;
+                    this.offset += dataLength;
+                    if (dataLength < bills.limit) {
+                        this.bol_loadMore = false;
+                    }
                 }
             }, this.offset);
         }
@@ -60,14 +60,14 @@ export default {
         bills.getBills(data => {
             if (data) {
                 data = JSON.parse(data);
-            }
-            for (const [key, value] of Object.entries(data)) {
-                Vue.set(this.itemList, key, value);
-            }
-            var dataLength = Object.keys(data).length;
-            this.offset += dataLength;
-            if (dataLength < bills.limit) {
-                this.bol_loadMore = false;
+                for (const [key, value] of Object.entries(data)) {
+                    Vue.set(this.itemList, key, value);
+                }
+                var dataLength = Object.keys(data).length;
+                this.offset += dataLength;
+                if (dataLength < bills.limit) {
+                    this.bol_loadMore = false;
+                }
             }
         });
     }

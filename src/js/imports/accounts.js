@@ -6,27 +6,46 @@ class Accounts {
         this.endpoint = "Accounts";
     }
 
-    getAccounts(success, offset = 0, limit = this.limit) {
+    getAccounts(userToken, success, offset = 0, limit = this.limit) {
         const params = {
+            userToken,
             offset,
             limit
         };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    getAccount(success, id) {
+    getAccount(userToken, success, id) {
         const params = {
+            userToken,
             id
         };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    setAccount(success, data) {
-        Api.submitAjax(data, this.endpoint, "set", "POST", success);
+    setAccount(userToken, success, data) {
+        const params = {
+            data,
+            userToken
+        };
+        // data.userToken = userToken;
+        Api.submitAjax(params, this.endpoint, "set", "POST", success);
     }
 
-    updateAccount(success, data) {
-        Api.submitAjax(data, this.endpoint, "update", "POST", success);
+    updateAccount(userToken, success, data) {
+        const params = {
+            data,
+            userToken
+        };
+        Api.submitAjax(params, this.endpoint, "update", "POST", success);
+    }
+
+    deleteAccount(userToken, success, data) {
+        const params = {
+            data,
+            userToken
+        };
+        Api.submitAjax(params, this.endpoint, "delete", "POST", success);
     }
 }
 

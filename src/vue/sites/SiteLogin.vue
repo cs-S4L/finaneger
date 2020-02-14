@@ -177,7 +177,6 @@ export default {
             e.preventDefault();
 
             Api.submitAjaxForm($("#form-register"), "set", data => {
-                console.log(data);
                 // return;
                 data = JSON.parse(data);
                 if (data.error) {

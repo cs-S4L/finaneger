@@ -134,6 +134,11 @@ h3 {
         background: $blue;
         border: 1px solid $white;
     }
+    &--red {
+        color: $white;
+        background: $red;
+        border: 1px solid $white;
+    }
     &--fixed {
         position: fixed;
         bottom: 10px;

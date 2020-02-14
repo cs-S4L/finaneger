@@ -17,7 +17,7 @@
         <button
             class="button button--blue"
             v-on:click="loadMore"
-            v-bind:class="{ hide: bol_loadMore }"
+            v-bind:class="{ hide: !bol_loadMore }"
         >
             Load More
         </button>
@@ -27,6 +27,7 @@
 <script>
 import Vue from "vue";
 
+import { store } from "../App.vue";
 import { accounts } from "../../js/imports/accounts.js";
 
 export default {
@@ -34,17 +35,36 @@ export default {
         return {
             itemList: {},
             offset: { default: 0 },
-            bol_loadMore: false
+            bol_loadMore: true
         };
     },
     components: {},
     computed: {},
     methods: {
         loadMore: function(e) {
-            accounts.loadAcocunts(data => {
-                if (data) {
-                    data = JSON.parse(data);
-                }
+            accounts.getAcocunts(
+                store.userToken,
+                data => {
+                    if (data) {
+                        data = JSON.parse(data);
+                        for (const [key, value] of Object.entries(data)) {
+                            Vue.set(this.itemList, key, value);
+                        }
+                        var dataLength = Object.keys(data).length;
+                        this.offset += dataLength;
+                        if (dataLength < accounts.limit) {
+                            this.bol_loadMore = false;
+                        }
+                    }
+                },
+                this.offset
+            );
+        }
+    },
+    mounted: function() {
+        accounts.getAccounts(store.userToken, data => {
+            if (data) {
+                data = JSON.parse(data);
                 for (const [key, value] of Object.entries(data)) {
                     Vue.set(this.itemList, key, value);
                 }
@@ -53,21 +73,6 @@ export default {
                 if (dataLength < accounts.limit) {
                     this.bol_loadMore = false;
                 }
-            }, this.offset);
-        }
-    },
-    mounted: function() {
-        accounts.getAccounts(data => {
-            if (data) {
-                data = JSON.parse(data);
-            }
-            for (const [key, value] of Object.entries(data)) {
-                Vue.set(this.itemList, key, value);
-            }
-            var dataLength = Object.keys(data).length;
-            this.offset += dataLength;
-            if (dataLength < accounts.limit) {
-                this.bol_loadMore = false;
             }
         });
     }
