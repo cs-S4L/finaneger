@@ -32,7 +32,34 @@ const router = new VueRouter({
     mode: "history"
 });
 
+import Numeral from "numeral";
+// load a locale
+Numeral.register("locale", "de", {
+    delimiters: {
+        thousands: ".",
+        decimal: ","
+    },
+    abbreviations: {
+        thousand: "k",
+        million: "m",
+        billion: "b",
+        trillion: "t"
+    },
+    ordinal: function(number) {
+        return number === 1 ? "ter" : "te";
+    },
+    currency: {
+        symbol: "€"
+    }
+});
+
+// switch between locales
+Numeral.locale("de");
+
+Vue.prototype.$numeral = Numeral;
+
 new Vue({
     render: h => h(App),
-    router
+    router,
+    Numeral
 }).$mount("#app");

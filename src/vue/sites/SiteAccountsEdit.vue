@@ -11,7 +11,7 @@
                         label="Bezeichnung"
                         name="description"
                         :error="item.description.error"
-                        :value="item.description.value"
+                        v-model="item.description.value"
                     >
                     </comp-text-field>
                 </div>
@@ -35,6 +35,7 @@
                         :error="item.balance.error"
                         :value="item.balance.value"
                         innerClass="currency"
+                        formatType="currency"
                     >
                     </comp-text-field>
                 </div>

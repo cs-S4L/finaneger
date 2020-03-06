@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="col">
-                    <comp-text-field label="E-Mail" type="email" name="email" :value="name">
+                    <comp-text-field label="E-Mail" type="email" name="email" v-model="login_mail">
                     </comp-text-field>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                         label="Passwort"
                         type="password"
                         name="password"
-                        :value="password"
+                        v-model="login_password"
                     >
                     </comp-text-field>
                 </div>
@@ -37,7 +37,7 @@
             <input type="hidden" name="api_key" :value="api_key" />
 
             <input
-                type="text"
+                type="submit"
                 value="Login"
                 class="button button--default"
                 v-on:click="submitLogin"
@@ -63,7 +63,7 @@
                         type="email"
                         :error="err_RegisterMail"
                         name="email"
-                        value=""
+                        v-model="register_mail"
                     >
                     </comp-text-field>
                 </div>
@@ -71,7 +71,12 @@
 
             <div class="row">
                 <div class="col">
-                    <comp-text-field label="Vorname" :error="err_RegisterName" name="name" value="">
+                    <comp-text-field
+                        label="Vorname"
+                        :error="err_RegisterName"
+                        name="name"
+                        v-model="register_name"
+                    >
                     </comp-text-field>
                 </div>
             </div>
@@ -82,7 +87,7 @@
                         label="Nachname"
                         :error="err_RegisterSurname"
                         name="surname"
-                        value=""
+                        v-model="register_surname"
                     >
                     </comp-text-field>
                 </div>
@@ -95,7 +100,7 @@
                         type="password"
                         :error="err_RegisterPassword"
                         name="password"
-                        value=""
+                        v-model="register_password"
                     >
                     </comp-text-field>
                 </div>
@@ -107,7 +112,7 @@
             <div class="row">
                 <div class="col">
                     <input
-                        type="text"
+                        type="submit"
                         value="Registrieren"
                         class="button button--default"
                         v-on:click="submitRegister"
@@ -128,14 +133,18 @@ import md5 from "blueimp-md5";
 export default {
     data: function() {
         return {
+            login_mail: "",
+            login_password: "",
+            register_mail: "",
+            register_name: "",
+            register_surname: "",
+            register_password: "",
             err_LoginForm: "",
             err_RegisterForm: "",
             err_RegisterMail: "",
             err_RegisterName: "",
             err_RegisterSurname: "",
-            err_RegisterPassword: "",
-            name: "",
-            password: ""
+            err_RegisterPassword: ""
             // api_key: store.api_key
         };
     },
@@ -184,6 +193,10 @@ export default {
                     }
                 } else if (data.userToken) {
                     store.userToken = data.userToken;
+                    store.auth_key = "";
+                    store.api_key = "";
+                    Cookies.set("sessionId", data.userToken.sessionId);
+                    Cookies.set("userId", data.userToken.userId);
                 } else {
                     console.log("Error! Something went wrong");
                 }
