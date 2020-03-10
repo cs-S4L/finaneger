@@ -24,11 +24,15 @@ export const store = Vue.observable({
 if (!store.userToken) {
     const sessionId = Cookies.get("sessionId");
     const userId = Cookies.get("userId");
+    const username = Cookies.get("username");
+    const usersurname = Cookies.get("usersurname");
 
     if (sessionId && userId) {
         store.userToken = {
             sessionId: sessionId,
-            userId: userId
+            userId: userId,
+            name: username,
+            surname: usersurname
         };
     } else {
         Api.submitAjax("", "token", "get", "POST", data => {

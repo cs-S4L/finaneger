@@ -48,6 +48,9 @@ export default {
                     if (data) {
                         data = JSON.parse(data);
                         for (const [key, value] of Object.entries(data)) {
+                            if (value.balance) {
+                                value.balance = this.$numeral(value.balance).format("0,0.00");
+                            }
                             Vue.set(this.itemList, key, value);
                         }
                         var dataLength = Object.keys(data).length;
@@ -66,6 +69,9 @@ export default {
             if (data) {
                 data = JSON.parse(data);
                 for (const [key, value] of Object.entries(data)) {
+                    if (value.balance) {
+                        value.balance = this.$numeral(value.balance).format("0,0.00");
+                    }
                     Vue.set(this.itemList, key, value);
                 }
                 var dataLength = Object.keys(data).length;

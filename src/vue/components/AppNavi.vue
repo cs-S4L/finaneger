@@ -5,6 +5,7 @@
             <i class="material-icons account" v-on:click="toggleAccountPopUp">account_circle</i>
 
             <div id="accountPopUp" class="accountPopUp">
+                <span class="username">Hallo, {{ fullName }}</span>
                 <button class="button button--default button--small" v-on:click="logout">
                     Logout
                 </button>
@@ -46,7 +47,11 @@ function toggleMenu() {
 
 export default {
     components: {},
-    computed: {},
+    computed: {
+        fullName() {
+            return `${store.userToken.name} ${store.userToken.surname}`;
+        }
+    },
     methods: {
         toggleMenu: () => {
             toggleMenu();

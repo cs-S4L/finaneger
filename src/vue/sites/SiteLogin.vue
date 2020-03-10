@@ -177,6 +177,8 @@ export default {
                     store.api_key = "";
                     Cookies.set("sessionId", data.userToken.sessionId);
                     Cookies.set("userId", data.userToken.userId);
+                    Cookies.set("username", data.userToken.name);
+                    Cookies.set("usersurname", data.userToken.surname);
                 } else {
                     console.log("Error! Something went wrong!");
                 }
@@ -197,6 +199,8 @@ export default {
                     store.api_key = "";
                     Cookies.set("sessionId", data.userToken.sessionId);
                     Cookies.set("userId", data.userToken.userId);
+                    Cookies.set("username", data.userToken.name);
+                    Cookies.set("usersurname", data.userToken.surname);
                 } else {
                     console.log("Error! Something went wrong");
                 }

@@ -3,7 +3,13 @@
         <label :for="name">{{ label }}</label>
         <span class="error">{{ error }}</span>
         <div class="input-inner" :class="innerClass">
-            <input :type="type" :name="name" :value="value" v-on:blur="updateValue($event)" />
+            <input
+                :type="type"
+                :name="name"
+                :value="compValue"
+                v-on:blur="updateValue($event)"
+                ref="input"
+            />
         </div>
     </div>
 </template>
@@ -27,22 +33,24 @@ export default {
             } else {
                 return "";
             }
+        },
+        compValue() {
+            var newVal = this.value;
+            switch (this.formatType) {
+                case "currency":
+                    newVal = this.$numeral(this.value).format("0,0.00");
+                    break;
+                default:
+                    newVal = this.value.replace(/f/g, "");
+            }
+            this.$emit("input", newVal);
+
+            return newVal;
         }
     },
     methods: {
         updateValue: function(e) {
-            var newVal = e.target.value;
-            switch (this.formatType) {
-                case "currency":
-                    console.log(this);
-                    newVal = this.$numeral(e.target.value).format("0,0.00");
-                    console.log("currency", newVal);
-                    break;
-                default:
-                    newVal = e.target.value.replace(/f/g, "");
-            }
-            e.target.value = newVal;
-            this.$emit("input", newVal);
+            this.$emit("input", e.target.value);
         }
     }
 };

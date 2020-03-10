@@ -23,7 +23,7 @@
                         label="Bank"
                         name="bank"
                         :error="item.bank.error"
-                        :value="item.bank.value"
+                        v-model="item.bank.value"
                     >
                     </comp-text-field>
                 </div>
@@ -33,7 +33,7 @@
                         label="Kontostand"
                         name="balance"
                         :error="item.balance.error"
-                        :value="item.balance.value"
+                        v-model="item.balance.value"
                         innerClass="currency"
                         formatType="currency"
                     >
@@ -47,7 +47,7 @@
                         label="Typ"
                         name="type"
                         :error="item.type.error"
-                        :value="item.type.value"
+                        v-model="item.type.value"
                         :options="accountTypes"
                     >
                     </comp-select-field>
@@ -60,7 +60,7 @@
                         label="Kontoinhaber"
                         name="owner"
                         :error="item.owner.error"
-                        :value="item.owner.value"
+                        v-model="item.owner.value"
                     >
                     </comp-text-field>
                 </div>
@@ -110,7 +110,7 @@
 
             <input
                 type="button"
-                value="Editieren"
+                :value="submitValue"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
@@ -125,6 +125,7 @@
                 value="Löschen"
                 class="button button--red"
                 v-on:click="deleteAccount"
+                v-if="id != 'create'"
             />
         </form>
     </div>
@@ -196,7 +197,16 @@ export default {
         CompTextarea,
         CompCheckbox
     },
-    computed: {},
+    computed: {
+        submitValue() {
+            console.log("tesr", this.id);
+            if (this.id == "create") {
+                return "Erstellen";
+            } else {
+                return "Editieren";
+            }
+        }
+    },
     methods: {
         submitEdit: function(e) {
             if (this.id && this.id == "create") {
