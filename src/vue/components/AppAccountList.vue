@@ -8,7 +8,7 @@
             :to="`/konten/edit/${id}`"
         >
             <div class="header">
-                <span class="left">{{ item.type }}</span>
+                <span class="left">{{ convertType(item.type) }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
             <div class="number currency">{{ item.balance }}</div>
@@ -41,23 +41,35 @@ export default {
     components: {},
     computed: {},
     methods: {
+        convertType(type) {
+            if (type == "checking") {
+                return "Girokonto";
+            }
+            if (type == "saving") {
+                return "Sparkonto";
+            }
+            return "Konto";
+        },
+        handleDataResponse: function(data) {
+            data = JSON.parse(data);
+            for (const [key, value] of Object.entries(data)) {
+                if (value.balance) {
+                    value.balance = this.$numeral(value.balance).format("0,0.00");
+                }
+                Vue.set(this.itemList, key, value);
+            }
+            var dataLength = Object.keys(data).length;
+            this.offset += dataLength;
+            if (dataLength < accounts.limit) {
+                this.bol_loadMore = false;
+            }
+        },
         loadMore: function(e) {
             accounts.getAcocunts(
                 store.userToken,
                 data => {
                     if (data) {
-                        data = JSON.parse(data);
-                        for (const [key, value] of Object.entries(data)) {
-                            if (value.balance) {
-                                value.balance = this.$numeral(value.balance).format("0,0.00");
-                            }
-                            Vue.set(this.itemList, key, value);
-                        }
-                        var dataLength = Object.keys(data).length;
-                        this.offset += dataLength;
-                        if (dataLength < accounts.limit) {
-                            this.bol_loadMore = false;
-                        }
+                        this.handleDataResponse(data);
                     }
                 },
                 this.offset
@@ -67,18 +79,7 @@ export default {
     mounted: function() {
         accounts.getAccounts(store.userToken, data => {
             if (data) {
-                data = JSON.parse(data);
-                for (const [key, value] of Object.entries(data)) {
-                    if (value.balance) {
-                        value.balance = this.$numeral(value.balance).format("0,0.00");
-                    }
-                    Vue.set(this.itemList, key, value);
-                }
-                var dataLength = Object.keys(data).length;
-                this.offset += dataLength;
-                if (dataLength < accounts.limit) {
-                    this.bol_loadMore = false;
-                }
+                this.handleDataResponse(data);
             }
         });
     }

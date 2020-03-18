@@ -6,27 +6,31 @@ class Finances {
         this.endpoint = "Finances";
     }
 
-    getFinances(success, offset = 0, limit = this.limit) {
+    getFinances(userToken, success, offset = 0, limit = this.limit) {
         const params = {
+            userToken,
             offset,
             limit
         };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    getFinance(success, id) {
+    getFinance(userToken, success, id) {
         const params = {
+            userToken,
             id
         };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    setFinance(success, data) {
-        Api.submitAjax(data, this.endpoint, "set", "POST", success);
+    setFinance(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "set", "POST", success);
     }
 
-    updateFinance(success, data) {
-        Api.submitAjax(data, this.endpoint, "update", "POST", success);
+    updateFinance(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "update", "POST", success);
     }
 }
 

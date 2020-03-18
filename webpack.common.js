@@ -1,5 +1,7 @@
 var webpack = require("webpack");
 
+const momentLocalesPlugin = require("moment-locales-webpack-plugin");
+
 module.exports = {
     entry: {
         main: "./src/js/index.js"
@@ -31,8 +33,12 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
-            Cookies: "js-cookie"
+            Cookies: "js-cookie",
+            moment: "moment"
             //   import Cookies from 'js-cookie'
+        }),
+        new momentLocalesPlugin({
+            localesToKeep: ["de-DE"]
         })
     ]
 };

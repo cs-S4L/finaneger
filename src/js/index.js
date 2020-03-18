@@ -4,6 +4,7 @@ import App from "../vue/App.vue";
 
 import "../sass/main.scss";
 
+//	Vue Router
 import SiteHome from "../vue/sites/SiteHome.vue";
 import SiteFinances from "../vue/sites/SiteFinances.vue";
 import SiteFinancesEdit from "../vue/sites/SiteFinancesEdit.vue";
@@ -32,8 +33,9 @@ const router = new VueRouter({
     mode: "history"
 });
 
+//	Import Numeral
 import Numeral from "numeral";
-// load a locale
+
 Numeral.register("locale", "de", {
     delimiters: {
         thousands: ".",
@@ -52,8 +54,6 @@ Numeral.register("locale", "de", {
         symbol: "€"
     }
 });
-
-// switch between locales
 Numeral.locale("de");
 
 Vue.prototype.$numeral = Numeral;

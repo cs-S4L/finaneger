@@ -24,27 +24,17 @@ class Accounts {
     }
 
     setAccount(userToken, success, data) {
-        const params = {
-            data,
-            userToken
-        };
-        // data.userToken = userToken;
+        const params = { data, userToken };
         Api.submitAjax(params, this.endpoint, "set", "POST", success);
     }
 
     updateAccount(userToken, success, data) {
-        const params = {
-            data,
-            userToken
-        };
+        const params = { data, userToken };
         Api.submitAjax(params, this.endpoint, "update", "POST", success);
     }
 
     deleteAccount(userToken, success, data) {
-        const params = {
-            data,
-            userToken
-        };
+        const params = { data, userToken };
         Api.submitAjax(params, this.endpoint, "delete", "POST", success);
     }
 }

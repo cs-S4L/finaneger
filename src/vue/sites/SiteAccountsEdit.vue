@@ -186,6 +186,7 @@ export default {
                 // }
             },
             accountTypes: [
+                { name: "", value: "" },
                 { name: "Girokonto", value: "checking" },
                 { name: "Sparkonto", value: "saving" }
             ]
@@ -199,7 +200,6 @@ export default {
     },
     computed: {
         submitValue() {
-            console.log("tesr", this.id);
             if (this.id == "create") {
                 return "Erstellen";
             } else {
@@ -208,27 +208,33 @@ export default {
         }
     },
     methods: {
+        setErrors: function(errors) {
+            for (const [key, value] of Object.entries(data.error)) {
+                if (key in this.item) {
+                    this.item[key].error = value;
+                }
+            }
+        },
+        handleSubmitData: function(data) {
+            if (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    this.$router.push({ path: "/konten" });
+                } else {
+                    if (data.error) {
+                        this.setErrors(data.error);
+                    } else {
+                        console.log("Error! No further Information given!");
+                    }
+                }
+            }
+        },
         submitEdit: function(e) {
             if (this.id && this.id == "create") {
                 accounts.setAccount(
                     store.userToken,
                     data => {
-                        if (data) {
-                            data = JSON.parse(data);
-                            if (data.success) {
-                                this.$router.push({ path: "/konten" });
-                            } else {
-                                if (data.error) {
-                                    for (const [key, value] of Object.entries(data.error)) {
-                                        if (key in this.item) {
-                                            this.item[key].error = value;
-                                        }
-                                    }
-                                } else {
-                                    console.log("Error! No further Information given!");
-                                }
-                            }
-                        }
+                        this.handleSubmitData(data);
                     },
                     $("#form").serialize()
                 );
@@ -236,22 +242,7 @@ export default {
                 accounts.updateAccount(
                     store.userToken,
                     data => {
-                        if (data) {
-                            data = JSON.parse(data);
-                            if (data.success) {
-                                this.$router.push({ path: "/konten" });
-                            } else {
-                                if (data.error) {
-                                    for (const [key, value] of Object.entries(data.error)) {
-                                        if (key in this.item) {
-                                            this.item[key].error = value;
-                                        }
-                                    }
-                                } else {
-                                    console.log("Error! No further Information given!");
-                                }
-                            }
-                        }
+                        this.handleSubmitData(data);
                     },
                     $("#form").serialize()
                 );
@@ -264,22 +255,7 @@ export default {
             accounts.deleteAccount(
                 store.userToken,
                 data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/konten" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
-                            } else {
-                                console.log("Error! No further Information given!");
-                            }
-                        }
-                    }
+                    this.handleSubmitData(data);
                 },
                 $("#form").serialize()
             );

@@ -40,8 +40,11 @@ export default {
                 case "currency":
                     newVal = this.$numeral(this.value).format("0,0.00");
                     break;
+                case "date":
+                    newVal = moment(this.value, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+                    break;
                 default:
-                    newVal = this.value.replace(/f/g, "");
+                    newVal = this.value;
             }
             this.$emit("input", newVal);
 

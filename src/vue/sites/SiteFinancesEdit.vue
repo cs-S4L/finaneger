@@ -13,7 +13,7 @@
                         label="Bezeichnung"
                         name="description"
                         :error="item.description.error"
-                        :value="item.description.value"
+                        v-model="item.description.value"
                     >
                     </comp-text-field>
                 </div>
@@ -25,11 +25,10 @@
                         label="Typ"
                         name="type"
                         :error="item.type.error"
-                        :value="item.type.value"
+                        v-model="item.type.value"
                         :options="[
-                            { value: '', name: '' },
                             { value: 'income', name: 'Einnahme' },
-                            { value: 'expenses', name: 'Ausgabe' }
+                            { value: 'spending', name: 'Ausgabe' }
                         ]"
                     >
                     </comp-select-field>
@@ -40,8 +39,9 @@
                         label="Betrag"
                         name="amount"
                         :error="item.amount.error"
-                        :value="item.amount.value"
+                        v-model="item.amount.value"
                         innerClass="currency"
+                        formatType="currency"
                     >
                     </comp-text-field>
                 </div>
@@ -53,7 +53,7 @@
                         label="Konto"
                         name="account"
                         :error="item.account.error"
-                        :value="item.account.value"
+                        v-model="item.account.value"
                         :options="accountOptions"
                     >
                     </comp-select-field>
@@ -66,8 +66,9 @@
                         label="Datum"
                         name="date"
                         :error="item.date.error"
-                        :value="item.date.value"
+                        v-model="item.date.value"
                         innerClass=""
+                        formatType="date"
                     >
                     </comp-text-field>
                 </div>
@@ -92,15 +93,22 @@
 
             <input
                 type="submit"
-                value="Login"
+                :value="submitValue"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
             <input
                 type="button"
-                value="abort"
+                value="Abbrechen"
                 class="button button--white"
                 v-on:click="abortEdit"
+            />
+            <input
+                type="button"
+                value="Löschen"
+                class="button button--red"
+                v-on:click="deleteAccount"
+                v-if="id != 'create'"
             />
         </form>
     </div>
@@ -111,7 +119,9 @@ import CompTextField from "../components/CompTextField.vue";
 import CompSelectField from "../components/CompSelectField.vue";
 import CompTextarea from "../components/CompTextarea.vue";
 
+import { accounts } from "../../js/imports/accounts.js";
 import { finances } from "../../js/imports/finances.js";
+import { store } from "../App.vue";
 
 export default {
     props: {
@@ -138,7 +148,7 @@ export default {
                     error: ""
                 },
                 date: {
-                    value: "",
+                    value: moment().format("DD.MM.YYYY"),
                     error: ""
                 },
                 note: {
@@ -146,83 +156,140 @@ export default {
                     error: ""
                 }
             },
-            accountOptions: {
-                value: ""
-            }
+            accountOptions: []
         };
+    },
+    watch: {
+        "item.date.value": function(newVal, oldVal) {
+            this.item.date.error = "";
+            if (newVal == "Invalid date") {
+                this.item.date.error = "Invalid Date. " + oldVal;
+            }
+        }
     },
     components: {
         CompTextField,
         CompSelectField,
         CompTextarea
     },
-    computed: {},
+    computed: {
+        submitValue() {
+            if (this.id == "create") {
+                return "Erstellen";
+            } else {
+                return "Editieren";
+            }
+        }
+    },
     methods: {
+        handleError: function(data) {
+            if (data.error) {
+                for (const [key, value] of Object.entries(data.error)) {
+                    if (key in this.item) {
+                        this.item[key].error = value;
+                    }
+                }
+            } else {
+                console.log("Error! No further Information given!");
+            }
+        },
+        setAccountOptions(accounts) {
+            for (const [key, value] of Object.entries(accounts)) {
+                this.accountOptions.push({
+                    value: `${value.id}`,
+                    name: value.description
+                });
+            }
+        },
         submitEdit: function(e) {
             e.preventDefault();
 
             if (this.id && this.id == "create") {
-                finances.setFinance(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/finanzen" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
+                finances.setFinance(
+                    store.userToken,
+                    data => {
+                        if (data) {
+                            data = JSON.parse(data);
+                            if (data.success) {
+                                this.$router.push({ path: "/finanzen" });
                             } else {
-                                console.log("Error! No further Information given!");
+                                this.handleError(data);
                             }
                         }
-                    }
-                }, $("#form").serialize());
+                    },
+                    $("#form").serialize()
+                );
             } else {
-                finances.updateFinance(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/finanzen" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
+                finances.updateFinance(
+                    store.userToken,
+                    data => {
+                        if (data) {
+                            data = JSON.parse(data);
+                            if (data.success) {
+                                this.$router.push({ path: "/finanzen" });
                             } else {
-                                console.log("Error! No further Information given!");
+                                this.handleError(data);
                             }
                         }
-                    }
-                }, $("#form").serialize());
+                    },
+                    $("#form").serialize()
+                );
             }
         },
         abortEdit: function(e) {
             this.$router.push({ path: "/finanzen" });
+        },
+        deleteAccount: function(e) {
+            accounts.deleteAccount(
+                store.userToken,
+                data => {
+                    this.handleSubmitData(data);
+                },
+                $("#form").serialize()
+            );
         }
     },
-    mounted: function() {
-        if (this.id) {
-            finances.getFinance(data => {
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
                 if (data) {
                     data = JSON.parse(data);
-                    if (data.item) {
-                        const item = data.item;
-                    }
-                    for (const [key, value] of Object.entries(data.item)) {
-                        if (key in this.item) {
-                            this.item[key].value = value;
+                    this.setAccountOptions(data);
+                }
+            },
+            0,
+            ""
+        );
+    },
+    mounted: function() {
+        if (this.id && this.id != "create") {
+            finances.getFinance(
+                store.userToken,
+                data => {
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data.success) {
+                            if (data.success != "accounts") {
+                                for (const [key, value] of Object.entries(data.success)) {
+                                    if (key in this.item) {
+                                        switch (key) {
+                                            case "account":
+                                                this.item.account.value = `${value}`;
+                                                break;
+                                            default:
+                                                this.item[key].value = value;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            this.handleError(data);
                         }
                     }
-                    if ("accountOptions" in data) {
-                        this.accountOptions = data.accountOptions;
-                    }
-                }
-            }, this.id);
+                },
+                this.id
+            );
         }
     }
 };

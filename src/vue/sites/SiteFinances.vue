@@ -2,8 +2,6 @@
     <div id="site-finances" class="site">
         <h2 class="site-title">Ein-/Ausgabe</h2>
 
-        <span>coming soon!</span>
-
         <app-financeList></app-financeList>
 
         <router-link
