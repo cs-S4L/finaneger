@@ -337,7 +337,7 @@ a {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .row {
@@ -367,14 +367,16 @@ a {
     max-width: $lg;
     margin: 0 auto;
     padding: 0 10px;
+    position: relative;
 
     @include respond-to($md) {
-        padding: 0 10px 0 $aside-size + 10px;
-        margin: 0;
+        margin: 0 0 0 $aside-size;
+        padding: 0 10px 0 10px;
     }
 
     @include respond-to($lg) {
-        padding: 0 10px 0 $aside-size + 25px;
+        margin: 0 0 0 $aside-size;
+        padding: 0 10px 0 25px;
     }
 }
 
@@ -601,3 +603,22 @@ aside.side-navi {
         }
     }
 } //.list-item
+
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .inner {
+        background: $white;
+        border: 1px solid $black;
+        padding: 20px;
+        border-radius: $border-radius--1;
+    }
+}
