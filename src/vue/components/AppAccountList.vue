@@ -34,7 +34,7 @@ export default {
     data: function() {
         return {
             itemList: {},
-            offset: { default: 0 },
+            offset: 0,
             bol_loadMore: true
         };
     },
@@ -65,7 +65,7 @@ export default {
             }
         },
         loadMore: function(e) {
-            accounts.getAcocunts(
+            accounts.getAccounts(
                 store.userToken,
                 data => {
                     if (data) {

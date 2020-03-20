@@ -32,6 +32,11 @@ class Finances {
         const params = { userToken, data };
         Api.submitAjax(params, this.endpoint, "update", "POST", success);
     }
+
+    deleteFinance(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "delete", "POST", success);
+    }
 }
 
 export const finances = new Finances();

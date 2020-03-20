@@ -182,6 +182,16 @@ export default {
         }
     },
     methods: {
+        handleSubmitData: function(data) {
+            if (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    this.$router.push({ path: "/finanzen" });
+                } else {
+                    this.handleError(data);
+                }
+            }
+        },
         handleError: function(data) {
             if (data.error) {
                 for (const [key, value] of Object.entries(data.error)) {
@@ -205,33 +215,11 @@ export default {
             e.preventDefault();
 
             if (this.id && this.id == "create") {
-                finances.setFinance(
-                    store.userToken,
-                    data => {
-                        if (data) {
-                            data = JSON.parse(data);
-                            if (data.success) {
-                                this.$router.push({ path: "/finanzen" });
-                            } else {
-                                this.handleError(data);
-                            }
-                        }
-                    },
-                    $("#form").serialize()
-                );
+                finances.setFinance(store.userToken, this.handleSubmitData, $("#form").serialize());
             } else {
                 finances.updateFinance(
                     store.userToken,
-                    data => {
-                        if (data) {
-                            data = JSON.parse(data);
-                            if (data.success) {
-                                this.$router.push({ path: "/finanzen" });
-                            } else {
-                                this.handleError(data);
-                            }
-                        }
-                    },
+                    this.handleSubmitData,
                     $("#form").serialize()
                 );
             }
@@ -240,7 +228,7 @@ export default {
             this.$router.push({ path: "/finanzen" });
         },
         deleteAccount: function(e) {
-            accounts.deleteAccount(
+            finances.deleteFinance(
                 store.userToken,
                 data => {
                     this.handleSubmitData(data);

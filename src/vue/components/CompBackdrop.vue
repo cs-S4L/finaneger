@@ -14,7 +14,6 @@ export default {
     components: {},
     computed: {
         visibleClass() {
-            console.log(this.visible);
             if (this.visible) {
                 return "test";
             } else {

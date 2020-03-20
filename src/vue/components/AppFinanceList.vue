@@ -56,7 +56,6 @@ export default {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
         handleDataResponse: function(data) {
-            console.log(data);
             data = JSON.parse(data);
             for (const [key, value] of Object.entries(data)) {
                 Vue.set(this.itemList, key, value);

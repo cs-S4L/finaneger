@@ -186,7 +186,6 @@ export default {
                 // }
             },
             accountTypes: [
-                { name: "", value: "" },
                 { name: "Girokonto", value: "checking" },
                 { name: "Sparkonto", value: "saving" }
             ]
