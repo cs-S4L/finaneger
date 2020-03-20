@@ -22,7 +22,7 @@
         <button
             class="button button--blue"
             v-on:click="loadMore"
-            v-bind:class="{ hide: bol_loadMore }"
+            v-bind:class="{ hide: !bol_loadMore }"
         >
             Load More
         </button>
@@ -39,8 +39,8 @@ export default {
     data: function() {
         return {
             itemList: {},
-            offset: { default: 0 },
-            bol_loadMore: false
+            offset: 0,
+            bol_loadMore: true
         };
     },
     components: {},
@@ -62,6 +62,7 @@ export default {
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
+            console.log(dataLength, finances.limit);
             if (dataLength < finances.limit) {
                 this.bol_loadMore = false;
             }
@@ -70,6 +71,7 @@ export default {
             finances.getFinances(
                 store.userToken,
                 data => {
+                    console.log(data);
                     if (!data) {
                         console.log("Unbekannter Fehler", data);
                         return;
