@@ -34,7 +34,7 @@
                         v-model="item.type.value"
                         :options="[
                             { value: 'income', name: 'Einnahme' },
-                            { value: 'expenses', name: 'Ausgabe' }
+                            { value: 'spending', name: 'Ausgabe' }
                         ]"
                     >
                     </comp-select-field>
@@ -78,10 +78,10 @@
             <div class="row">
                 <div class="col">
                     <comp-text-field
-                        label="Datum"
-                        name="startDate"
-                        :error="item.startDate.error"
-                        v-model="item.startDate.value"
+                        label="Nächste Wertstellung"
+                        name="nextValuation"
+                        :error="item.nextValuation.error"
+                        v-model="item.nextValuation.value"
                         innerClass=""
                         formatType="date"
                     >
@@ -174,7 +174,7 @@ export default {
                     value: "",
                     error: ""
                 },
-                startDate: {
+                nextValuation: {
                     value: moment().format("DD.MM.YYYY"),
                     error: ""
                 },
@@ -260,7 +260,7 @@ export default {
             fixedCosts.deleteFixedCost(
                 store.userToken,
                 this.handleSubmitData,
-                $("#form-finance").serialize
+                $("#form-finance").serialize()
             );
         }
     },

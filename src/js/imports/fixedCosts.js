@@ -25,6 +25,11 @@ class FixedCosts {
         const params = { userToken, data };
         Api.submitAjax(params, this.endpoint, "update", "POST", success);
     }
+
+    deleteFixedCost(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "delete", "POST", success);
+    }
 }
 
 export const fixedCosts = new FixedCosts();
