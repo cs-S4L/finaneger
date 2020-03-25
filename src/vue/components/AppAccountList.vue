@@ -5,7 +5,7 @@
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
-            :to="`/konten/edit/${id}`"
+            :to="`/konten/edit/${item.id}`"
         >
             <div class="header">
                 <span class="left">{{ convertType(item.type) }}</span>

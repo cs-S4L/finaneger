@@ -7,11 +7,7 @@ class Finances {
     }
 
     getFinances(userToken, success, offset = 0, limit = this.limit) {
-        const params = {
-            userToken,
-            offset,
-            limit
-        };
+        const params = { userToken, offset, limit };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 

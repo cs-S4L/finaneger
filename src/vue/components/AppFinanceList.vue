@@ -5,7 +5,7 @@
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
-            :to="`finanzen/edit/${id}`"
+            :to="`finanzen/edit/${item.id}`"
         >
             <div class="header">
                 <span class="left">{{ getFormatedDate(item.date) }}</span>
@@ -62,7 +62,6 @@ export default {
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
-            console.log(dataLength, finances.limit);
             if (dataLength < finances.limit) {
                 this.bol_loadMore = false;
             }

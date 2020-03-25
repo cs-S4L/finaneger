@@ -1,6 +1,7 @@
 <template>
     <div id="site-fixedCostsEdit" class="site">
-        <h2 class="site-title">Fixe Einnahme/Ausgabe editieren</h2>
+        <h2 class="site-title" v-if="id != 'create'">Fixe Einnahme/Ausgabe editieren</h2>
+        <h2 class="site-title" v-if="id == 'create'">Fixe Einnahme/Ausgabe erstellen</h2>
 
         <form
             action="#editFinance"
@@ -18,7 +19,7 @@
                         label="Bezeichnung"
                         name="description"
                         :error="item.description.error"
-                        :value="item.description.value"
+                        v-model="item.description.value"
                     >
                     </comp-text-field>
                 </div>
@@ -30,9 +31,8 @@
                         label="Typ"
                         name="type"
                         :error="item.type.error"
-                        :value="item.type.value"
+                        v-model="item.type.value"
                         :options="[
-                            { value: '', name: '' },
                             { value: 'income', name: 'Einnahme' },
                             { value: 'expenses', name: 'Ausgabe' }
                         ]"
@@ -45,8 +45,9 @@
                         label="Betrag"
                         name="amount"
                         :error="item.amount.error"
-                        :value="item.amount.value"
+                        v-model="item.amount.value"
                         innerClass="currency"
+                        formatType="currency"
                     >
                     </comp-text-field>
                 </div>
@@ -58,7 +59,7 @@
                         label="Konto Eingang"
                         name="account"
                         :error="item.account.error"
-                        :value="item.account.value"
+                        v-model="item.account.value"
                         :options="accountOptions"
                     >
                     </comp-select-field>
@@ -78,10 +79,11 @@
                 <div class="col">
                     <comp-text-field
                         label="Datum"
-                        name="date"
-                        :error="item.date.error"
-                        :value="item.date.value"
+                        name="startDate"
+                        :error="item.startDate.error"
+                        v-model="item.startDate.value"
                         innerClass=""
+                        formatType="date"
                     >
                     </comp-text-field>
                 </div>
@@ -90,9 +92,8 @@
                         label="Wiederholung"
                         name="iteration"
                         :error="item.iteration.error"
-                        :value="item.iteration.value"
+                        v-model="item.iteration.value"
                         :options="[
-                            { value: '', name: '' },
                             { value: 'weekly', name: 'wöchentlich' },
                             { value: 'monthly', name: 'monatlich' }
                         ]"
@@ -119,15 +120,22 @@
 
             <input
                 type="submit"
-                value="Login"
+                :value="submitValue"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
             <input
-                type="submit"
-                value="abort"
+                type="button"
+                value="Abbrechen"
                 class="button button--white"
                 v-on:click="abortEdit"
+            />
+            <input
+                type="button"
+                value="Löschen"
+                class="button button--red"
+                v-on:click="deleteFixedCost"
+                v-if="id != 'create'"
             />
         </form>
     </div>
@@ -138,7 +146,9 @@ import CompTextField from "../components/CompTextField.vue";
 import CompSelectField from "../components/CompSelectField.vue";
 import CompTextarea from "../components/CompTextarea.vue";
 
+import { accounts } from "../../js/imports/accounts.js";
 import { fixedCosts } from "../../js/imports/fixedCosts.js";
+import { store } from "../App.vue";
 
 export default {
     props: {
@@ -164,8 +174,8 @@ export default {
                     value: "",
                     error: ""
                 },
-                date: {
-                    value: "",
+                startDate: {
+                    value: moment().format("DD.MM.YYYY"),
                     error: ""
                 },
                 iteration: {
@@ -177,9 +187,7 @@ export default {
                     error: ""
                 }
             },
-            accountOptions: {
-                value: ""
-            }
+            accountOptions: []
         };
     },
     components: {
@@ -187,73 +195,117 @@ export default {
         CompSelectField,
         CompTextarea
     },
-    computed: {},
+    computed: {
+        submitValue() {
+            if (this.id == "create") {
+                return "Erstellen";
+            } else {
+                return "Editieren";
+            }
+        }
+    },
     methods: {
+        setAccountOptions(accounts) {
+            for (const [key, value] of Object.entries(accounts)) {
+                this.accountOptions.push({
+                    value: `${value.id}`,
+                    name: value.description
+                });
+            }
+        },
+        handleSubmitData: function(data) {
+            console.log(data);
+            if (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    this.$router.push({ path: "/fixkosten" });
+                } else {
+                    this.handleError(data);
+                }
+            }
+        },
+        handleError: function(data) {
+            if (data.error) {
+                for (const [key, value] of Object.entries(data.error)) {
+                    console.log(key, value);
+                    if (key in this.item) {
+                        this.item[key].error = value;
+                    }
+                }
+            } else {
+                console.log("Error! No further Information given!");
+            }
+        },
         submitEdit: function(e) {
             e.preventDefault();
 
             if (this.id && this.id == "create") {
-                fixedCosts.setFixedCost(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/fixkosten" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
-                            } else {
-                                console.log("Error! No further Information given!");
-                            }
-                        }
-                    }
-                }, $("#form").serialize());
+                fixedCosts.setFixedCost(
+                    store.userToken,
+                    this.handleSubmitData,
+                    $("#form-finance").serialize()
+                );
             } else {
-                fixedCosts.updateFixedCost(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/fixkosten" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
-                            } else {
-                                console.log("Error! No further Information given!");
-                            }
-                        }
-                    }
-                }, $("#form").serialize());
+                fixedCosts.updateFixedCost(
+                    store.userToken,
+                    this.handleSubmitData,
+                    $("#form-finance").serialize()
+                );
             }
         },
         abortEdit: function(e) {
             this.$router.push({ path: "/fixkosten" });
+        },
+        deleteFixedCost: function(e) {
+            fixedCosts.deleteFixedCost(
+                store.userToken,
+                this.handleSubmitData,
+                $("#form-finance").serialize
+            );
         }
+    },
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                    this.setAccountOptions(data);
+                }
+            },
+            0,
+            ""
+        );
     },
     mounted: function() {
         if (this.id) {
-            fixedCosts.getFixedCost(data => {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.item) {
-                        const item = data.item;
-                    }
-                    for (const [key, value] of Object.entries(data.item)) {
-                        if (key in this.item) {
-                            this.item[key].value = value;
+            fixedCosts.getFixedCost(
+                store.userToken,
+                data => {
+                    console.log(data);
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data.success) {
+                            if (data.success != "accounts") {
+                                for (const [key, value] of Object.entries(data.success)) {
+                                    if (key in this.item) {
+                                        switch (key) {
+                                            case "account":
+                                                this.item.account.value = `${value}`;
+                                                break;
+                                            default:
+                                                this.item[key].value = value;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            this.handleError(data);
                         }
                     }
-                    if ("accountOptions" in data) {
-                        this.accountOptions = data.accountOptions;
-                    }
-                }
-            }, this.id);
+                },
+                this.id
+            );
         }
     }
 };

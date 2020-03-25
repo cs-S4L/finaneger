@@ -5,14 +5,19 @@
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
-            :to="`fixkosten/edit/${id}`"
+            :to="`fixkosten/edit/${item.id}`"
         >
             <div class="header">
-                <span class="left">{{ item.date }}</span>
+                <span class="left">{{ getFormatedDate(item.lastValuation) }}</span>
                 <span class="right">{{ item.iteration }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
-            <div class="number currency">{{ item.amount }}</div>
+            <div
+                class="number currency"
+                :class="{ green: isEinnahme(item.type), red: isAusgabe(item.type) }"
+            >
+                {{ item.amount }}
+            </div>
         </router-link>
 
         <button
@@ -28,6 +33,7 @@
 <script>
 import Vue from "vue";
 
+import { store } from "../App.vue";
 import { fixedCosts } from "../../js/imports/fixedCosts.js";
 
 export default {
@@ -41,6 +47,15 @@ export default {
     components: {},
     computed: {},
     methods: {
+        isEinnahme: type => {
+            return type == "income" ? true : false;
+        },
+        isAusgabe: type => {
+            return type == "spending" ? true : false;
+        },
+        getFormatedDate: date => {
+            return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+        },
         loadMore: function(e) {
             fixedCosts.getFixedCosts(data => {
                 if (data) {
@@ -58,10 +73,11 @@ export default {
         }
     },
     mounted: function() {
-        fixedCosts.getFixedCosts(data => {
-            if (data) {
-                data = JSON.parse(data);
+        fixedCosts.getFixedCosts(store.userToken, data => {
+            if (!data) {
+                return false;
             }
+            data = JSON.parse(data);
             for (const [key, value] of Object.entries(data)) {
                 Vue.set(this.itemList, key, value);
             }

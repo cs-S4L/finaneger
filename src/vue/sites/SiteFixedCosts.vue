@@ -2,16 +2,14 @@
     <div id="site-fixedCosts" class="site">
         <h2 class="site-title">Fixkosten</h2>
 
-        <span>coming soon!</span>
-
-        <!--<app-fixedCostsList></app-fixedCostsList>
+        <app-fixedCostsList></app-fixedCostsList>
 
         <router-link
             :to="'fixkosten/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add
-        </router-link>-->
+        </router-link>
     </div>
 </template>
 
