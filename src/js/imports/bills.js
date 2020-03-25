@@ -6,25 +6,29 @@ class Bills {
         this.endpoint = "Bills";
     }
 
-    getBills(success, offset = 0, limit = this.limit) {
-        const params = {
-            offset,
-            limit
-        };
+    getBills(userToken, success, offset = 0, limit = this.limit) {
+        const params = { userToken, offset, limit };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    getBill(success, id) {
-        const params = { id };
+    getBill(userToken, success, id) {
+        const params = { userToken, id };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
-    setBill(success, data) {
-        Api.submitAjax(data, this.endpoint, "set", "POST", success);
+    setBill(userToken, success, data) {
+        const params = { userToken, id };
+        Api.submitAjax(params, this.endpoint, "set", "POST", success);
     }
 
-    updateBill(success, data) {
-        Api.submitAjax(data, this.endpoint, "update", "POST", success);
+    updateBill(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "update", "POST", success);
+    }
+
+    deleteBill(userToken, success, data) {
+        const params = { userToken, data };
+        Api.submitAjax(params, this.endpoint, "delete", "POST", success);
     }
 }
 

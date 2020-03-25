@@ -17,14 +17,9 @@
 import AppFinanceList from "../components/AppFinanceList.vue";
 
 export default {
-    data: function() {
-        return {};
-    },
     components: {
         AppFinanceList
-    },
-    computed: {},
-    methods: {}
+    }
 };
 </script>
 

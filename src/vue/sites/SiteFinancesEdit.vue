@@ -1,6 +1,7 @@
 <template>
     <div id="site-financesEdit" class="site">
-        <h2 class="site-title">Einnahme/Ausgabe editieren {{ id }}</h2>
+        <h2 class="site-title" v-if="id != 'create'">Einnahme/Ausgabe editieren</h2>
+        <h2 class="site-title" v-if="id == 'create'">Einnahme/Ausgabe erstellen</h2>
 
         <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
             <!-- <h2 class="form-title">Melde dich an!</h2> -->
@@ -119,9 +120,9 @@ import CompTextField from "../components/CompTextField.vue";
 import CompSelectField from "../components/CompSelectField.vue";
 import CompTextarea from "../components/CompTextarea.vue";
 
+import { store } from "../App.vue";
 import { accounts } from "../../js/imports/accounts.js";
 import { finances } from "../../js/imports/finances.js";
-import { store } from "../App.vue";
 
 export default {
     props: {
@@ -228,13 +229,7 @@ export default {
             this.$router.push({ path: "/finanzen" });
         },
         deleteAccount: function(e) {
-            finances.deleteFinance(
-                store.userToken,
-                data => {
-                    this.handleSubmitData(data);
-                },
-                $("#form").serialize()
-            );
+            finances.deleteFinance(store.userToken, this.handleSubmitData, $("#form").serialize());
         }
     },
     beforeCreate: function() {

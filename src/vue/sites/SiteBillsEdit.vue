@@ -1,6 +1,7 @@
 <template>
     <div id="site-billsEdit" class="site">
-        <h2 class="site-title">Rechnung editieren</h2>
+        <h2 class="site-title" v-if="id != 'create'">Rechnung editieren</h2>
+        <h2 class="site-title" v-if="id == 'create'">Rechnung erstellen</h2>
 
         <form action="#editBill" id="form" class="form form-bill" v-bind:class="{ error: '' }">
             <span class="form-error">{{ "" }}</span>
@@ -11,7 +12,7 @@
                         label="Bezeichnung"
                         name="description"
                         :error="item.description.error"
-                        :value="item.description.value"
+                        v-model="item.description.value"
                     >
                     </comp-text-field>
                 </div>
@@ -23,7 +24,7 @@
                         label="Fälligkeit"
                         name="dueDate"
                         :error="item.dueDate.error"
-                        :value="item.dueDate.value"
+                        v-model="item.dueDate.value"
                     >
                     </comp-text-field>
                 </div>
@@ -33,7 +34,7 @@
                         label="Betrag"
                         name="amount"
                         :error="item.amount.error"
-                        :value="item.amount.value"
+                        v-model="item.amount.value"
                         innerClass="currency"
                     >
                     </comp-text-field>
@@ -42,23 +43,24 @@
 
             <div class="row">
                 <div class="col">
-                    <comp-select-field
-                        label="Ausgangskonto"
-                        name="relatedAccount"
-                        :error="item.relatedAccount.error"
-                        :value="item.relatedAccount.value"
-                        :options="accountOptions"
-                    >
-                    </comp-select-field>
-                </div>
-                <div class="col">
                     <comp-checkbox
                         label="Bezahlt?"
                         name="payed"
                         :error="item.payed.error"
-                        :value="item.payed.value"
+                        v-model="item.payed.value"
                     >
                     </comp-checkbox>
+                </div>
+                <div class="col">
+                    <comp-select-field
+                        label="Ausgangskonto"
+                        name="relatedAccount"
+                        v-bind:class="showAccountSelect"
+                        :error="item.relatedAccount.error"
+                        v-model="item.relatedAccount.value"
+                        :options="accountOptions"
+                    >
+                    </comp-select-field>
                 </div>
             </div>
 
@@ -80,15 +82,22 @@
 
             <input
                 type="submit"
-                value="Login"
+                :value="submitValue"
                 class="button button--default"
                 v-on:click="submitEdit"
             />
             <input
-                type="submit"
-                value="abort"
+                type="button"
+                value="Abbrechen"
                 class="button button--white"
                 v-on:click="abortEdit"
+            />
+            <input
+                type="button"
+                value="Löschen"
+                class="button button--red"
+                v-on:click="deleteAccount"
+                v-if="id != 'create'"
             />
         </form>
     </div>
@@ -100,6 +109,8 @@ import CompSelectField from "../components/CompSelectField.vue";
 import CompTextarea from "../components/CompTextarea.vue";
 import CompCheckbox from "../components/CompCheckbox.vue";
 
+import { store } from "../App.vue";
+import { accounts } from "../../js/imports/accounts.js";
 import { bills } from "../../js/imports/bills.js";
 
 export default {
@@ -127,7 +138,7 @@ export default {
                     error: ""
                 },
                 payed: {
-                    value: "",
+                    value: false,
                     error: ""
                 },
                 note: {
@@ -135,9 +146,7 @@ export default {
                     error: ""
                 }
             },
-            accountOptions: {
-                value: ""
-            }
+            accountOptions: []
         };
     },
     components: {
@@ -146,54 +155,80 @@ export default {
         CompTextarea,
         CompCheckbox
     },
-    computed: {},
+    computed: {
+        submitValue() {
+            if (this.id == "create") {
+                return "Erstellen";
+            } else {
+                return "Editieren";
+            }
+        },
+        showAccountSelect() {
+            if (this.item.payed.value) {
+                return "";
+            } else {
+                return "visibility-hidden";
+            }
+        }
+    },
     methods: {
+        handleSubmitData: function(data) {
+            if (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    this.$router.push({ path: "/rechnungen" });
+                } else {
+                    this.handleError(data);
+                }
+            }
+        },
+        handleError: function(data) {
+            if (data.error) {
+                for (const [key, value] of Object.entries(data.error)) {
+                    if (key in this.item) {
+                        this.item[key].error = value;
+                    }
+                }
+            } else {
+                console.log("Error! No further Information given!");
+            }
+        },
+        setAccountOptions(accounts) {
+            for (const [key, value] of Object.entries(accounts)) {
+                this.accountOptions.push({
+                    value: `${value.id}`,
+                    name: value.description
+                });
+            }
+        },
         submitEdit: function(e) {
             e.preventDefault();
 
             if (this.id && this.id == "create") {
-                bills.setBill(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/rechnungen" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
-                            } else {
-                                console.log("Error! No further Information given!");
-                            }
-                        }
-                    }
-                }, $("#form").serialize());
+                bills.setBill(store.userToken, this.handleSubmitData, $("#form").serialize());
             } else {
-                bills.updateBill(data => {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.success) {
-                            this.$router.push({ path: "/rechnungen" });
-                        } else {
-                            if (data.error) {
-                                for (const [key, value] of Object.entries(data.error)) {
-                                    if (key in this.item) {
-                                        this.item[key].error = value;
-                                    }
-                                }
-                            } else {
-                                console.log("Error! No further Information given!");
-                            }
-                        }
-                    }
-                }, $("#form").serialize());
+                bills.updateBill(store.userToken, this.handleSubmitData, $("#form").serialize());
             }
         },
         abortEdit: function(e) {
             this.$router.push({ path: "/rechnungen" });
+        },
+        deleteBill: function(e) {
+            bills.deleteBill(store.userToken, this.handleSubmitData, $("#form").serialize());
         }
+    },
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                    this.setAccountOptions(data);
+                }
+            },
+            0,
+            ""
+        );
     },
     mounted: function() {
         if (this.id) {

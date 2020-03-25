@@ -340,6 +340,10 @@ a {
     display: none !important;
 }
 
+.visibility-hidden {
+    visibility: hidden !important;
+}
+
 .row {
     display: flex;
     justify-content: space-around;

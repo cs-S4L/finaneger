@@ -5,10 +5,10 @@
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
-            :to="`/rechnungen/edit/${id}`"
+            :to="`/rechnungen/edit/${item.id}`"
         >
             <div class="header">
-                <span class="right">{{ item.dueDate }}</span>
+                <span class="right">{{ getFormatedDate(item.dueDate) }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
             <div class="number currency">{{ item.amount }}</div>
@@ -27,6 +27,7 @@
 <script>
 import Vue from "vue";
 
+import { store } from "../App.vue";
 import { bills } from "../../js/imports/bills.js";
 
 export default {
@@ -40,24 +41,11 @@ export default {
     components: {},
     computed: {},
     methods: {
-        loadMore: function(e) {
-            bills.getBills(data => {
-                if (data) {
-                    data = JSON.parse(data);
-                    for (const [key, value] of Object.entries(data)) {
-                        Vue.set(this.itemList, key, value);
-                    }
-                    var dataLength = Object.keys(data).length;
-                    this.offset += dataLength;
-                    if (dataLength < bills.limit) {
-                        this.bol_loadMore = false;
-                    }
-                }
-            }, this.offset);
-        }
-    },
-    mounted: function() {
-        bills.getBills(data => {
+        getFormatedDate: date => {
+            return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+        },
+        handleDataResponse: function(data) {
+            console.log(data);
             if (data) {
                 data = JSON.parse(data);
                 for (const [key, value] of Object.entries(data)) {
@@ -69,7 +57,13 @@ export default {
                     this.bol_loadMore = false;
                 }
             }
-        });
+        },
+        loadMore: function(e) {
+            bills.getBills(store.userToken, this.handleDataResponse, this.offset);
+        }
+    },
+    mounted: function() {
+        bills.getBills(store.userToken, this.handleDataResponse);
     }
 };
 </script>

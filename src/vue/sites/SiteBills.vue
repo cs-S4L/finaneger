@@ -1,16 +1,15 @@
 <template>
     <div id="site-bills" class="site">
         <h2 class="site-title">Rechnungen</h2>
-        <span>coming soon!</span>
 
-        <!--<app-billList></app-billList>
+        <app-billList></app-billList>
 
         <router-link
             :to="'rechnungen/edit/create'"
             class="material-icons button button--fixed button--round button--white"
         >
             add
-        </router-link>-->
+        </router-link>
     </div>
 </template>
 
@@ -20,9 +19,7 @@ import AppBillList from "../components/AppBillList.vue";
 export default {
     components: {
         AppBillList
-    },
-    computed: {},
-    methods: {}
+    }
 };
 </script>
 

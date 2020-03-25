@@ -12,10 +12,7 @@ class Finances {
     }
 
     getFinance(userToken, success, id) {
-        const params = {
-            userToken,
-            id
-        };
+        const params = { userToken, id };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 

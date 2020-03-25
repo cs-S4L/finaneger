@@ -32,8 +32,8 @@
 <script>
 import Vue from "vue";
 
-import { finances } from "../../js/imports/finances.js";
 import { store } from "../App.vue";
+import { finances } from "../../js/imports/finances.js";
 
 export default {
     data: function() {
@@ -56,6 +56,11 @@ export default {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
         handleDataResponse: function(data) {
+            if (!data) {
+                console.log("Unbekannter Fehler", data);
+                return;
+            }
+
             data = JSON.parse(data);
             for (const [key, value] of Object.entries(data)) {
                 Vue.set(this.itemList, key, value);
@@ -67,28 +72,11 @@ export default {
             }
         },
         loadMore: function(e) {
-            finances.getFinances(
-                store.userToken,
-                data => {
-                    console.log(data);
-                    if (!data) {
-                        console.log("Unbekannter Fehler", data);
-                        return;
-                    }
-                    this.handleDataResponse(data);
-                },
-                this.offset
-            );
+            finances.getFinances(store.userToken, this.handleDataResponse, this.offset);
         }
     },
     mounted: function() {
-        finances.getFinances(store.userToken, data => {
-            if (!data) {
-                console.log("Unbekannter Fehler", data);
-                return;
-            }
-            this.handleDataResponse(data);
-        });
+        finances.getFinances(store.userToken, this.handleDataResponse);
     }
 };
 </script>
