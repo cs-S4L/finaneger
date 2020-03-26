@@ -25,6 +25,7 @@
                         name="dueDate"
                         :error="item.dueDate.error"
                         v-model="item.dueDate.value"
+                        formatType="date"
                     >
                     </comp-text-field>
                 </div>
@@ -36,6 +37,7 @@
                         :error="item.amount.error"
                         v-model="item.amount.value"
                         innerClass="currency"
+                        formatType="currency"
                     >
                     </comp-text-field>
                 </div>
@@ -54,10 +56,10 @@
                 <div class="col">
                     <comp-select-field
                         label="Ausgangskonto"
-                        name="relatedAccount"
+                        name="account"
                         v-bind:class="showAccountSelect"
-                        :error="item.relatedAccount.error"
-                        v-model="item.relatedAccount.value"
+                        :error="item.account.error"
+                        v-model="item.account.value"
                         :options="accountOptions"
                     >
                     </comp-select-field>
@@ -85,6 +87,7 @@
                 :value="submitValue"
                 class="button button--default"
                 v-on:click="submitEdit"
+                v-if="editEnabled"
             />
             <input
                 type="button"
@@ -96,7 +99,7 @@
                 type="button"
                 value="Löschen"
                 class="button button--red"
-                v-on:click="deleteAccount"
+                v-on:click="deleteBill"
                 v-if="id != 'create'"
             />
         </form>
@@ -126,14 +129,14 @@ export default {
                     error: ""
                 },
                 dueDate: {
-                    value: "",
+                    value: moment().format("DD.MM.YYYY"),
                     error: ""
                 },
                 amount: {
                     value: "",
                     error: ""
                 },
-                relatedAccount: {
+                account: {
                     value: "",
                     error: ""
                 },
@@ -146,7 +149,8 @@ export default {
                     error: ""
                 }
             },
-            accountOptions: []
+            accountOptions: [],
+            editEnabled: true
         };
     },
     components: {
@@ -173,6 +177,7 @@ export default {
     },
     methods: {
         handleSubmitData: function(data) {
+            console.log(data);
             if (data) {
                 data = JSON.parse(data);
                 if (data.success) {
@@ -231,23 +236,36 @@ export default {
         );
     },
     mounted: function() {
-        if (this.id) {
-            bills.getBill(data => {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.item) {
-                        const item = data.item;
-                    }
-                    for (const [key, value] of Object.entries(data.item)) {
-                        if (key in this.item) {
-                            this.item[key].value = value;
+        if (this.id && this.id != "create") {
+            bills.getBill(
+                store.userToken,
+                data => {
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data.success) {
+                            if (data.success != "accounts") {
+                                for (const [key, value] of Object.entries(data.success)) {
+                                    if (key in this.item) {
+                                        switch (key) {
+                                            case "account":
+                                                this.item.account.value = `${value}`;
+                                                break;
+                                            default:
+                                                this.item[key].value = value;
+                                        }
+                                    }
+                                }
+                                if (this.item.payed.value) {
+                                    this.editEnabled = false;
+                                }
+                            }
+                        } else {
+                            this.handleError(data);
                         }
                     }
-                    if ("accountOptions" in data) {
-                        this.accountOptions = data.accountOptions;
-                    }
-                }
-            }, this.id);
+                },
+                this.id
+            );
         }
     }
 };

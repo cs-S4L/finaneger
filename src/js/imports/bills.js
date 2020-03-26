@@ -17,7 +17,7 @@ class Bills {
     }
 
     setBill(userToken, success, data) {
-        const params = { userToken, id };
+        const params = { userToken, data };
         Api.submitAjax(params, this.endpoint, "set", "POST", success);
     }
 

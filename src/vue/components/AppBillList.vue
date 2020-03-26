@@ -34,7 +34,7 @@ export default {
     data: function() {
         return {
             itemList: {},
-            offset: { default: 0 },
+            offset: 0,
             bol_loadMore: false
         };
     },
@@ -45,17 +45,18 @@ export default {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
         handleDataResponse: function(data) {
-            console.log(data);
-            if (data) {
-                data = JSON.parse(data);
-                for (const [key, value] of Object.entries(data)) {
-                    Vue.set(this.itemList, key, value);
-                }
-                var dataLength = Object.keys(data).length;
-                this.offset += dataLength;
-                if (dataLength < bills.limit) {
-                    this.bol_loadMore = false;
-                }
+            if (!data) {
+                return;
+            }
+
+            data = JSON.parse(data);
+            for (const [key, value] of Object.entries(data)) {
+                Vue.set(this.itemList, key, value);
+            }
+            var dataLength = Object.keys(data).length;
+            this.offset += dataLength;
+            if (dataLength < bills.limit) {
+                this.bol_loadMore = false;
             }
         },
         loadMore: function(e) {
