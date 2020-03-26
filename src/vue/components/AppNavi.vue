@@ -60,7 +60,7 @@ export default {
             const accountPopUp = document.querySelector("#accountPopUp");
             accountPopUp.classList.toggle("active");
         },
-        logout: e => {
+        logout: function(e) {
             Api.submitAjax({ userToken: store.userToken }, "token", "delete", "POST", data => {
                 if (data) {
                     data = JSON.parse(data);
@@ -68,6 +68,7 @@ export default {
                         store.userToken = "";
                         Cookies.remove("sessionId");
                         Cookies.remove("userId");
+                        this.$router.push({ path: "/" });
                         location.reload();
                     }
                 }

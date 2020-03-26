@@ -2,7 +2,7 @@
     <div id="site-login" class="site">
         <h2 class="welcome">Herzlich Willkommen bei deinem</h2>
         <h1 class="title">Finaneger</h1>
-        <h1 style="text-align: center">Logoplatzhalter</h1>
+        <!-- <h1 style="text-align: center">Logoplatzhalter</h1> -->
 
         <form
             action="token"
@@ -179,6 +179,7 @@ export default {
                     Cookies.set("userId", data.userToken.userId);
                     Cookies.set("username", data.userToken.name);
                     Cookies.set("usersurname", data.userToken.surname);
+                    this.$router.push({ path: "/" });
                 } else {
                     console.log("Error! Something went wrong!");
                 }
@@ -201,6 +202,7 @@ export default {
                     Cookies.set("userId", data.userToken.userId);
                     Cookies.set("username", data.userToken.name);
                     Cookies.set("usersurname", data.userToken.surname);
+                    this.$router.push({ path: "/" });
                 } else {
                     console.log("Error! Something went wrong");
                 }
