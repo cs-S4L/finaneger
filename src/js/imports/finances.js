@@ -2,7 +2,7 @@ import { Api } from "./finanegerApi.js";
 
 class Finances {
     constructor() {
-        this.limit = 2;
+        this.limit = 20;
         this.endpoint = "Finances";
     }
 

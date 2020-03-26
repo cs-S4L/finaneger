@@ -56,14 +56,20 @@ export default {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
         handleDataResponse: function(data) {
+            let currentLength = 0;
+
             if (!data) {
-                console.log("Unbekannter Fehler", data);
+                console.log("No Data Response", data);
                 return;
             }
 
             data = JSON.parse(data);
+            if (this.itemList) {
+                currentLength = Object.entries(this.itemList).length;
+            }
             for (const [key, value] of Object.entries(data)) {
-                Vue.set(this.itemList, key, value);
+                let _key = parseInt(key) + currentLength;
+                Vue.set(this.itemList, _key, value);
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;

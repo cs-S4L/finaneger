@@ -51,12 +51,23 @@ export default {
             return "Konto";
         },
         handleDataResponse: function(data) {
+            let currentLength = 0;
+
+            if (!data) {
+                console.log("No Data Response", data);
+                return;
+            }
+
             data = JSON.parse(data);
+            if (this.itemList) {
+                currentLength = Object.entries(this.itemList).length;
+            }
             for (const [key, value] of Object.entries(data)) {
+                let _key = parseInt(key) + currentLength;
                 if (value.balance) {
                     value.balance = this.$numeral(value.balance).format("0,0.00");
                 }
-                Vue.set(this.itemList, key, value);
+                Vue.set(this.itemList, _key, value);
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;

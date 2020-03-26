@@ -23,7 +23,7 @@
         <button
             class="button button--blue"
             v-on:click="loadMore"
-            v-bind:class="{ hide: bol_loadMore }"
+            v-bind:class="{ hide: !bol_loadMore }"
         >
             Load More
         </button>
@@ -40,8 +40,8 @@ export default {
     data: function() {
         return {
             itemList: {},
-            offset: { default: 0 },
-            bol_loadMore: false
+            offset: 0,
+            bol_loadMore: true
         };
     },
     components: {},
@@ -56,37 +56,34 @@ export default {
         getFormatedDate: date => {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
-        loadMore: function(e) {
-            fixedCosts.getFixedCosts(data => {
-                if (data) {
-                    data = JSON.parse(data);
-                }
-                for (const [key, value] of Object.entries(data)) {
-                    Vue.set(this.itemList, key, value);
-                }
-                var dataLength = Object.keys(data).length;
-                this.offset += dataLength;
-                if (dataLength < fixedCosts.limit) {
-                    this.bol_loadMore = false;
-                }
-            }, this.offset);
-        }
-    },
-    mounted: function() {
-        fixedCosts.getFixedCosts(store.userToken, data => {
+        handleDataResponse: function(data) {
+            let currentLength = 0;
+
             if (!data) {
-                return false;
+                console.log("No Data Response", data);
+                return;
             }
+
             data = JSON.parse(data);
+            if (this.itemList) {
+                currentLength = Object.entries(this.itemList).length;
+            }
             for (const [key, value] of Object.entries(data)) {
-                Vue.set(this.itemList, key, value);
+                let _key = parseInt(key) + currentLength;
+                Vue.set(this.itemList, _key, value);
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
             if (dataLength < fixedCosts.limit) {
                 this.bol_loadMore = false;
             }
-        });
+        },
+        loadMore: function(e) {
+            fixedCosts.getFixedCosts(store.userToken, this.handleDataResponse, this.offset);
+        }
+    },
+    mounted: function() {
+        fixedCosts.getFixedCosts(store.userToken, this.handleDataResponse);
     }
 };
 </script>

@@ -17,7 +17,7 @@
         <button
             class="button button--blue"
             v-on:click="loadMore"
-            v-bind:class="{ hide: bol_loadMore }"
+            v-bind:class="{ hide: !bol_loadMore }"
         >
             Load More
         </button>
@@ -35,7 +35,7 @@ export default {
         return {
             itemList: {},
             offset: 0,
-            bol_loadMore: false
+            bol_loadMore: true
         };
     },
     components: {},
@@ -45,16 +45,24 @@ export default {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
         handleDataResponse: function(data) {
+            let currentLength = 0;
             if (!data) {
+                console.log("No Data Response", data);
                 return;
             }
 
             data = JSON.parse(data);
+            console.log(data);
+            if (this.itemList) {
+                currentLength = Object.entries(this.itemList).length;
+            }
             for (const [key, value] of Object.entries(data)) {
-                Vue.set(this.itemList, key, value);
+                let _key = parseInt(key) + currentLength;
+                Vue.set(this.itemList, _key, value);
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
+            console.log(dataLength);
             if (dataLength < bills.limit) {
                 this.bol_loadMore = false;
             }
