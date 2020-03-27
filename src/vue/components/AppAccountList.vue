@@ -17,7 +17,7 @@
         <button
             class="button button--blue"
             v-on:click="loadMore"
-            v-bind:class="{ hide: !bol_loadMore }"
+            v-bind:class="{ hide: !bol_loadMore || !bol_loadMore_prop }"
         >
             Load More
         </button>
@@ -32,7 +32,8 @@ import { accounts } from "../../js/imports/accounts.js";
 
 export default {
     props: {
-        accounts: false
+        accounts: false,
+        bol_loadMore_prop: { default: true }
     },
     data: function() {
         return {
@@ -43,6 +44,11 @@ export default {
     },
     components: {},
     computed: {},
+    watch: {
+        accounts: function(newVal, oldVal) {
+            this.addToItemList(newVal);
+        }
+    },
     methods: {
         convertType(type) {
             if (type == "checking") {
@@ -53,25 +59,30 @@ export default {
             }
             return "Konto";
         },
-        handleDataResponse: function(data) {
+        addToItemList(accounts) {
             let currentLength = 0;
 
-            if (!data) {
-                console.log("No Data Response", data);
-                return;
-            }
-
-            data = JSON.parse(data);
             if (this.itemList) {
                 currentLength = Object.entries(this.itemList).length;
             }
-            for (const [key, value] of Object.entries(data)) {
+            for (const [key, value] of Object.entries(accounts)) {
                 let _key = parseInt(key) + currentLength;
                 if (value.balance) {
                     value.balance = this.$numeral(value.balance).format("0,0.00");
                 }
                 Vue.set(this.itemList, _key, value);
             }
+        },
+        handleDataResponse: function(data) {
+            if (!data) {
+                console.log("No Data Response", data);
+                return;
+            }
+
+            data = JSON.parse(data);
+
+            this.addToItemList(data);
+
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
             if (dataLength < accounts.limit) {
@@ -91,14 +102,17 @@ export default {
         }
     },
     mounted: function() {
-        // if (this.accounts) {
-        //     this.ha;
-        // }
-        accounts.getAccounts(store.userToken, data => {
-            if (data) {
-                this.handleDataResponse(data);
-            }
-        });
+        console.log(this.accounts);
+        if (this.accounts) {
+            this.addToItemList(this.accounts);
+        } else {
+            console.log("test ajax");
+            accounts.getAccounts(store.userToken, data => {
+                if (data) {
+                    this.handleDataResponse(data);
+                }
+            });
+        }
     }
 };
 </script>

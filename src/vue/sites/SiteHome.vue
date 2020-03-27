@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="col col-account-list noPadding">
-                <app-accountList></app-accountList>
+                <app-accountList :accounts="accounts" :bol_loadMore_prop="false"></app-accountList>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@ import { accounts } from "../../js/imports/accounts.js";
 export default {
     data: function() {
         return {
-            accounts: ""
+            accounts: true
         };
     },
     components: {
@@ -39,7 +39,6 @@ export default {
         total() {
             let total = 0;
             for (const [key, value] of Object.entries(this.accounts)) {
-                console.log(value);
                 total += parseInt(value.balance);
             }
             return total;
@@ -51,24 +50,8 @@ export default {
                 return "green";
             }
         }
-        // totalAssets() {
-        //     let total = 0;
-        //     for (const [key, value] of Object.entries(this.accounts)) {
-        //         console.log(value);
-        //         total += parseInt(value.balance);
-        //     }
-        //     return `${total}€`;
-        // },
-        // positiveBalance() {
-        //     // if (this.totalAssets
-        // }
     },
     methods: {},
-    // watch: {
-    //     accounts: function(newVal, oldVal) {
-
-    //     }
-    // },
     beforeCreate: function() {
         accounts.getAccounts(
             store.userToken,
