@@ -118,6 +118,11 @@ h3 {
         padding: 5px 10px;
     }
 
+    &--big {
+        padding: 14px 10px;
+        line-height: 1.4;
+    }
+
     &--default {
         color: $white;
         background: $blue;
@@ -353,6 +358,16 @@ a {
     justify-content: space-around;
     align-items: center;
 
+    &.full-width-col {
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .col {
+            width: 100%;
+            padding: 0;
+        }
+    }
+
     .col {
         padding: 0 $column-padding;
         flex-grow: 1;
@@ -519,7 +534,7 @@ aside.side-navi {
 
 .site-title {
     width: 100%;
-    text-align: left;
+    text-align: center;
     padding: 20px 0 15px 0;
     font-size: $font-size--xxlarge;
     font-weight: $font-weight--medium;
@@ -616,6 +631,61 @@ aside.side-navi {
         }
     }
 } //.list-item
+
+.account-list {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    padding: 10px 10px 5px;
+    margin: 0 0 15px 0;
+    border-top: 1px solid $blue;
+    text-decoration: none;
+
+    @include respond-to($md) {
+        // height: 85px;
+        // padding: 40px 10px 10px 10px;
+    }
+
+    .left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .left-content {
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .description {
+            color: $black;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .owner,
+        .bank {
+            color: $grey;
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+        font-size: 20px;
+
+        .green {
+            color: $green;
+        }
+
+        .red {
+            color: $red;
+        }
+    }
+}
 
 .backdrop {
     position: absolute;

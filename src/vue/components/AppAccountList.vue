@@ -1,6 +1,26 @@
 <template>
     <div id="app-accountList" class="">
         <router-link
+            class="account-list"
+            :key=""
+            v-for="(item, id) in itemList"
+            :id="id"
+            :to="`/konten/edit/${item.id}`"
+        >
+            <div class="left">
+                <span class="left-content description">{{ item.description }}</span>
+                <span class="left-content bank">{{ item.bank }}</span>
+                <span class="left-content owner">{{ item.owner }}</span>
+            </div>
+
+            <div class="right">
+                <span class="balance" :class="balanceClass(item.balance)">{{ item.balance }}€</span>
+            </div>
+        </router-link>
+        <!-- 
+        <div class="divider"></div>
+
+        <router-link
             class="list-item"
             :key=""
             v-for="(item, id) in itemList"
@@ -12,7 +32,7 @@
             </div>
             <div class="text">{{ item.description }}</div>
             <div class="number currency">{{ item.balance }}</div>
-        </router-link>
+        </router-link> -->
 
         <button
             class="button button--blue"
@@ -50,6 +70,9 @@ export default {
         }
     },
     methods: {
+        balanceClass(balance) {
+            return parseInt(balance) < 0 ? "red" : "green";
+        },
         convertType(type) {
             if (type == "checking") {
                 return "Girokonto";
@@ -102,11 +125,9 @@ export default {
         }
     },
     mounted: function() {
-        console.log(this.accounts);
         if (this.accounts) {
             this.addToItemList(this.accounts);
         } else {
-            console.log("test ajax");
             accounts.getAccounts(store.userToken, data => {
                 if (data) {
                     this.handleDataResponse(data);

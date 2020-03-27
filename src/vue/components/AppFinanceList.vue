@@ -9,6 +9,7 @@
         >
             <div class="header">
                 <span class="left">{{ getFormatedDate(item.date) }}</span>
+                <span class="right">{{ getAccountName(item.account) }}</span>
             </div>
             <div class="text">{{ item.description }}</div>
             <div
@@ -33,6 +34,7 @@
 import Vue from "vue";
 
 import { store } from "../App.vue";
+import { accounts } from "../../js/imports/accounts.js";
 import { finances } from "../../js/imports/finances.js";
 
 export default {
@@ -40,7 +42,8 @@ export default {
         return {
             itemList: {},
             offset: 0,
-            bol_loadMore: true
+            bol_loadMore: true,
+            accounts: false
         };
     },
     components: {},
@@ -55,6 +58,14 @@ export default {
         getFormatedDate: date => {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
         },
+        getAccountName: function(account) {
+            console.log(account, this.accounts[account]);
+            if (this.accounts[account]) {
+                return this.accounts[account].description;
+            } else {
+                return "";
+            }
+        },
         handleDataResponse: function(data) {
             let currentLength = 0;
 
@@ -64,6 +75,7 @@ export default {
             }
 
             data = JSON.parse(data);
+            console.log(data);
             if (this.itemList) {
                 currentLength = Object.entries(this.itemList).length;
             }
@@ -80,6 +92,19 @@ export default {
         loadMore: function(e) {
             finances.getFinances(store.userToken, this.handleDataResponse, this.offset);
         }
+    },
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                    this.accounts = data;
+                }
+            },
+            0,
+            ""
+        );
     },
     mounted: function() {
         finances.getFinances(store.userToken, this.handleDataResponse);

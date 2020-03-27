@@ -50,4 +50,24 @@
     .col-account-list {
         margin: 25px 0 0 0;
     }
+
+    .row-shortcuts {
+        margin: 20px 0 10px 0;
+    }
+
+    .col-shortcuts {
+        margin: 0 0 15px 0;
+
+        .shortcut {
+            width: 80%;
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        .button {
+            padding: 15px 10px;
+        }
+    }
 }

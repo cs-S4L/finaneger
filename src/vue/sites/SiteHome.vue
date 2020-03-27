@@ -17,6 +17,32 @@
                 <app-accountList :accounts="accounts" :bol_loadMore_prop="false"></app-accountList>
             </div>
         </div>
+
+        <div class="row row-shortcuts full-width-col">
+            <div class="col col-shortcuts noPadding center-content">
+                <router-link :to="`finanzen/edit/create`" class="shortcut">
+                    <button class="button button--default button--big">
+                        Einnahme/Ausgabe erstellen
+                    </button>
+                </router-link>
+            </div>
+
+            <div class="col col-shortcuts noPadding center-content">
+                <router-link :to="`finanzen/edit/create`" class="shortcut">
+                    <button class="button button--default button--big">
+                        Fixkosten hinzufügen
+                    </button>
+                </router-link>
+            </div>
+
+            <div class="col col-shortcuts noPadding center-content">
+                <router-link :to="`finanzen/edit/create`" class="shortcut">
+                    <button class="button button--default button--big">
+                        Rechnung hinzufügen
+                    </button>
+                </router-link>
+            </div>
+        </div>
     </div>
 </template>
 
