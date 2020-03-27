@@ -1,108 +1,110 @@
 <template>
     <div id="site-billsEdit" class="site">
-        <h2 class="site-title" v-if="id != 'create'">Rechnung editieren</h2>
-        <h2 class="site-title" v-if="id == 'create'">Rechnung erstellen</h2>
+        <div class="site-inner">
+            <h2 class="site-title" v-if="id != 'create'">Rechnung editieren</h2>
+            <h2 class="site-title" v-if="id == 'create'">Rechnung erstellen</h2>
 
-        <form action="#editBill" id="form" class="form form-bill" v-bind:class="{ error: '' }">
-            <span class="form-error">{{ "" }}</span>
+            <form action="#editBill" id="form" class="form form-bill" v-bind:class="{ error: '' }">
+                <span class="form-error">{{ "" }}</span>
 
-            <div class="row">
-                <div class="col noPadding">
-                    <comp-text-field
-                        label="Bezeichnung"
-                        name="description"
-                        :error="item.description.error"
-                        v-model="item.description.value"
-                    >
-                    </comp-text-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Fälligkeit"
-                        name="dueDate"
-                        :error="item.dueDate.error"
-                        v-model="item.dueDate.value"
-                        formatType="date"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col noPadding">
+                        <comp-text-field
+                            label="Bezeichnung"
+                            name="description"
+                            :error="item.description.error"
+                            v-model="item.description.value"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <comp-text-field
-                        label="Betrag"
-                        name="amount"
-                        :error="item.amount.error"
-                        v-model="item.amount.value"
-                        innerClass="currency"
-                        formatType="currency"
-                    >
-                    </comp-text-field>
-                </div>
-            </div>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Fälligkeit"
+                            name="dueDate"
+                            :error="item.dueDate.error"
+                            v-model="item.dueDate.value"
+                            formatType="date"
+                        >
+                        </comp-text-field>
+                    </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-checkbox
-                        label="Bezahlt?"
-                        name="payed"
-                        :error="item.payed.error"
-                        v-model="item.payed.value"
-                    >
-                    </comp-checkbox>
+                    <div class="col">
+                        <comp-text-field
+                            label="Betrag"
+                            name="amount"
+                            :error="item.amount.error"
+                            v-model="item.amount.value"
+                            innerClass="currency"
+                            formatType="currency"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-                <div class="col">
-                    <comp-select-field
-                        label="Ausgangskonto"
-                        name="account"
-                        v-bind:class="showAccountSelect"
-                        :error="item.account.error"
-                        v-model="item.account.value"
-                        :options="accountOptions"
-                    >
-                    </comp-select-field>
+
+                <div class="row">
+                    <div class="col">
+                        <comp-checkbox
+                            label="Bezahlt?"
+                            name="payed"
+                            :error="item.payed.error"
+                            v-model="item.payed.value"
+                        >
+                        </comp-checkbox>
+                    </div>
+                    <div class="col">
+                        <comp-select-field
+                            label="Ausgangskonto"
+                            name="account"
+                            v-bind:class="showAccountSelect"
+                            :error="item.account.error"
+                            v-model="item.account.value"
+                            :options="accountOptions"
+                        >
+                        </comp-select-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-textarea
-                        label="Notiz"
-                        name="note"
-                        :error="item.note.error"
-                        :value="item.note.value"
-                        innerClass=""
-                        rows="5"
-                    >
-                    </comp-textarea>
+                <div class="row">
+                    <div class="col">
+                        <comp-textarea
+                            label="Notiz"
+                            name="note"
+                            :error="item.note.error"
+                            :value="item.note.value"
+                            innerClass=""
+                            rows="5"
+                        >
+                        </comp-textarea>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="id" :value="id" />
+                <input type="hidden" name="id" :value="id" />
 
-            <input
-                type="submit"
-                :value="submitValue"
-                class="button button--default"
-                v-on:click="submitEdit"
-                v-if="editEnabled"
-            />
-            <input
-                type="button"
-                value="Abbrechen"
-                class="button button--white"
-                v-on:click="abortEdit"
-            />
-            <input
-                type="button"
-                value="Löschen"
-                class="button button--red"
-                v-on:click="deleteBill"
-                v-if="id != 'create'"
-            />
-        </form>
+                <input
+                    type="submit"
+                    :value="submitValue"
+                    class="button button--default"
+                    v-on:click="submitEdit"
+                    v-if="editEnabled"
+                />
+                <input
+                    type="button"
+                    value="Abbrechen"
+                    class="button button--white"
+                    v-on:click="abortEdit"
+                />
+                <input
+                    type="button"
+                    value="Löschen"
+                    class="button button--red"
+                    v-on:click="deleteBill"
+                    v-if="id != 'create'"
+                />
+            </form>
+        </div>
     </div>
 </template>
 

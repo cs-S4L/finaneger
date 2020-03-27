@@ -1,117 +1,119 @@
 <template>
     <div id="site-financesEdit" class="site">
-        <h2 class="site-title" v-if="id != 'create'">Einnahme/Ausgabe editieren</h2>
-        <h2 class="site-title" v-if="id == 'create'">Einnahme/Ausgabe erstellen</h2>
+        <div class="site-inner">
+            <h2 class="site-title" v-if="id != 'create'">Einnahme/Ausgabe editieren</h2>
+            <h2 class="site-title" v-if="id == 'create'">Einnahme/Ausgabe erstellen</h2>
 
-        <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
-            <!-- <h2 class="form-title">Melde dich an!</h2> -->
+            <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
+                <!-- <h2 class="form-title">Melde dich an!</h2> -->
 
-            <span class="form-error">{{ formError }}</span>
+                <span class="form-error">{{ formError }}</span>
 
-            <div class="row">
-                <div class="col noPadding">
-                    <comp-text-field
-                        label="Bezeichnung"
-                        name="description"
-                        :error="item.description.error"
-                        v-model="item.description.value"
-                    >
-                    </comp-text-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <comp-select-field
-                        label="Typ"
-                        name="type"
-                        :error="item.type.error"
-                        v-model="item.type.value"
-                        :options="[
-                            { value: 'income', name: 'Einnahme' },
-                            { value: 'spending', name: 'Ausgabe' }
-                        ]"
-                    >
-                    </comp-select-field>
+                <div class="row">
+                    <div class="col noPadding">
+                        <comp-text-field
+                            label="Bezeichnung"
+                            name="description"
+                            :error="item.description.error"
+                            v-model="item.description.value"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <comp-text-field
-                        label="Betrag"
-                        name="amount"
-                        :error="item.amount.error"
-                        v-model="item.amount.value"
-                        innerClass="currency"
-                        formatType="currency"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-select-field
+                            label="Typ"
+                            name="type"
+                            :error="item.type.error"
+                            v-model="item.type.value"
+                            :options="[
+                                { value: 'income', name: 'Einnahme' },
+                                { value: 'spending', name: 'Ausgabe' }
+                            ]"
+                        >
+                        </comp-select-field>
+                    </div>
+
+                    <div class="col">
+                        <comp-text-field
+                            label="Betrag"
+                            name="amount"
+                            :error="item.amount.error"
+                            v-model="item.amount.value"
+                            innerClass="currency"
+                            formatType="currency"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-select-field
-                        label="Konto"
-                        name="account"
-                        :error="item.account.error"
-                        v-model="item.account.value"
-                        :options="accountOptions"
-                    >
-                    </comp-select-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-select-field
+                            label="Konto"
+                            name="account"
+                            :error="item.account.error"
+                            v-model="item.account.value"
+                            :options="accountOptions"
+                        >
+                        </comp-select-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Datum"
-                        name="date"
-                        :error="item.date.error"
-                        v-model="item.date.value"
-                        innerClass=""
-                        formatType="date"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Datum"
+                            name="date"
+                            :error="item.date.error"
+                            v-model="item.date.value"
+                            innerClass=""
+                            formatType="date"
+                        >
+                        </comp-text-field>
+                    </div>
+                    <div class="col"></div>
                 </div>
-                <div class="col"></div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-textarea
-                        label="Notiz"
-                        name="note"
-                        :error="item.note.error"
-                        :value="item.note.value"
-                        innerClass=""
-                        rows="5"
-                    >
-                    </comp-textarea>
+                <div class="row">
+                    <div class="col">
+                        <comp-textarea
+                            label="Notiz"
+                            name="note"
+                            :error="item.note.error"
+                            :value="item.note.value"
+                            innerClass=""
+                            rows="5"
+                        >
+                        </comp-textarea>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="id" :value="id" />
+                <input type="hidden" name="id" :value="id" />
 
-            <input
-                type="submit"
-                :value="submitValue"
-                class="button button--default"
-                v-on:click="submitEdit"
-            />
-            <input
-                type="button"
-                value="Abbrechen"
-                class="button button--white"
-                v-on:click="abortEdit"
-            />
-            <input
-                type="button"
-                value="Löschen"
-                class="button button--red"
-                v-on:click="deleteAccount"
-                v-if="id != 'create'"
-            />
-        </form>
+                <input
+                    type="submit"
+                    :value="submitValue"
+                    class="button button--default"
+                    v-on:click="submitEdit"
+                />
+                <input
+                    type="button"
+                    value="Abbrechen"
+                    class="button button--white"
+                    v-on:click="abortEdit"
+                />
+                <input
+                    type="button"
+                    value="Löschen"
+                    class="button button--red"
+                    v-on:click="deleteAccount"
+                    v-if="id != 'create'"
+                />
+            </form>
+        </div>
     </div>
 </template>
 

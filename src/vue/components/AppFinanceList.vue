@@ -1,22 +1,27 @@
 <template>
     <div id="app-financeList" class="">
         <router-link
-            class="list-item"
+            class="finance-list"
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
             :to="`finanzen/edit/${item.id}`"
         >
-            <div class="header">
-                <span class="left">{{ getFormatedDate(item.date) }}</span>
-                <span class="right">{{ getAccountName(item.account) }}</span>
+            <div class="left">
+                <p class="left-content date">{{ getFormatedDate(item.date) }}</p>
+                <div class="text">
+                    <p class="left-content description">{{ item.description }}</p>
+                    <p class="left-content account">{{ getAccountName(item.account) }}</p>
+                </div>
             </div>
-            <div class="text">{{ item.description }}</div>
-            <div
-                class="number currency"
-                :class="{ green: isEinnahme(item.type), red: isAusgabe(item.type) }"
-            >
-                {{ item.amount }}
+
+            <div class="right">
+                <span
+                    class="right-content amount"
+                    :class="{ green: isEinnahme(item.type), red: isAusgabe(item.type) }"
+                    ><span v-if="isAusgabe(item.type)">-</span
+                    >{{ getFormatedBalance(item.amount) }}€</span
+                >
             </div>
         </router-link>
 
@@ -56,10 +61,13 @@ export default {
             return type == "spending" ? true : false;
         },
         getFormatedDate: date => {
-            return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+            let str = moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YY");
+            return str.replace(/\./g, "\n");
+        },
+        getFormatedBalance(balance) {
+            return this.$numeral(balance).format("0,0.00");
         },
         getAccountName: function(account) {
-            console.log(account, this.accounts[account]);
             if (this.accounts[account]) {
                 return this.accounts[account].description;
             } else {

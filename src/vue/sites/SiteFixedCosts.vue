@@ -1,15 +1,17 @@
 <template>
     <div id="site-fixedCosts" class="site">
-        <h2 class="site-title">Fixkosten</h2>
+        <div class="site-inner">
+            <h2 class="site-title">Fixkosten</h2>
 
-        <app-fixedCostsList></app-fixedCostsList>
+            <app-fixedCostsList></app-fixedCostsList>
 
-        <router-link
-            :to="'fixkosten/edit/create'"
-            class="material-icons button button--fixed button--round button--white"
-        >
-            add
-        </router-link>
+            <router-link
+                :to="'fixkosten/edit/create'"
+                class="material-icons button button--fixed button--round button--blue-outline"
+            >
+                add
+            </router-link>
+        </div>
     </div>
 </template>
 

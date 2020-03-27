@@ -1,22 +1,31 @@
 <template>
     <div id="app-fixedCostList" class="">
         <router-link
-            class="list-item"
+            class="fixed-cost-list"
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
             :to="`fixkosten/edit/${item.id}`"
         >
-            <div class="header">
-                <span class="left">{{ getFormatedDate(item.lastValuation) }}</span>
-                <span class="right">{{ item.iteration }}</span>
+            <div class="left">
+                <!-- <p class="left-content date">{{ getFormatedDate(item.nextValuation) }}</p> -->
+                <div class="text">
+                    <p class="left-content description">{{ item.description }}</p>
+                    <p class="left-content account">{{ getAccountName(item.account) }}</p>
+                    <p class="left-content iteration">{{ getFormatedIteration(item.iteration) }}</p>
+                    <p class="left-content nextValuation">
+                        nächste Fälligkeit: {{ getFormatedDate(item.nextValuation) }}
+                    </p>
+                </div>
             </div>
-            <div class="text">{{ item.description }}</div>
-            <div
-                class="number currency"
-                :class="{ green: isEinnahme(item.type), red: isAusgabe(item.type) }"
-            >
-                {{ item.amount }}
+
+            <div class="right">
+                <span
+                    class="right-content amount"
+                    :class="{ green: isEinnahme(item.type), red: isAusgabe(item.type) }"
+                    ><span v-if="isAusgabe(item.type)">-</span
+                    >{{ getFormatedBalance(item.amount) }}€</span
+                >
             </div>
         </router-link>
 
@@ -34,6 +43,7 @@
 import Vue from "vue";
 
 import { store } from "../App.vue";
+import { accounts } from "../../js/imports/accounts.js";
 import { fixedCosts } from "../../js/imports/fixedCosts.js";
 
 export default {
@@ -41,7 +51,8 @@ export default {
         return {
             itemList: {},
             offset: 0,
-            bol_loadMore: true
+            bol_loadMore: true,
+            accounts: false
         };
     },
     components: {},
@@ -54,7 +65,27 @@ export default {
             return type == "spending" ? true : false;
         },
         getFormatedDate: date => {
-            return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+            return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YY");
+        },
+        getFormatedBalance(balance) {
+            return this.$numeral(balance).format("0,0.00");
+        },
+        getFormatedIteration(iteration) {
+            switch (iteration) {
+                case "weekly":
+                    return "Wöchentlich";
+                case "monthly":
+                    return "Monatlich";
+                default:
+                    return iteration;
+            }
+        },
+        getAccountName: function(account) {
+            if (this.accounts[account]) {
+                return this.accounts[account].description;
+            } else {
+                return "";
+            }
         },
         handleDataResponse: function(data) {
             let currentLength = 0;
@@ -81,6 +112,19 @@ export default {
         loadMore: function(e) {
             fixedCosts.getFixedCosts(store.userToken, this.handleDataResponse, this.offset);
         }
+    },
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                    this.accounts = data;
+                }
+            },
+            0,
+            ""
+        );
     },
     mounted: function() {
         fixedCosts.getFixedCosts(store.userToken, this.handleDataResponse);

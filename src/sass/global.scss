@@ -139,6 +139,11 @@ h3 {
         background: $blue;
         border: 1px solid $white;
     }
+    &--blue-outline {
+        color: $white;
+        background: $blue;
+        border: 1px solid $blue;
+    }
     &--red {
         color: $white;
         background: $red;
@@ -151,7 +156,7 @@ h3 {
     }
     &--round {
         border-radius: 100%;
-        font-size: 30px;
+        font-size: 45px;
         padding: 8px;
     }
 } //button
@@ -392,19 +397,29 @@ a {
 }
 
 .site {
-    max-width: $lg;
+    // max-width: $lg;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 3px 10px 0;
     position: relative;
 
     @include respond-to($md) {
         margin: 0 0 0 $aside-size;
-        padding: 0 10px 0 10px;
+        padding: 3px 10px 0 10px;
     }
 
     @include respond-to($lg) {
         margin: 0 0 0 $aside-size;
-        padding: 0 10px 0 25px;
+        padding: 15px 10px 0;
+    }
+
+    @include respond-to($xlg) {
+        // margin: 0 auto;
+    }
+
+    .site-inner {
+        max-width: $lg;
+        margin: 0 auto;
+        padding: 0 0 60px 0;
     }
 }
 
@@ -535,7 +550,7 @@ aside.side-navi {
 .site-title {
     width: 100%;
     text-align: center;
-    padding: 20px 0 15px 0;
+    padding: 20px 0;
     font-size: $font-size--xxlarge;
     font-weight: $font-weight--medium;
 } //site-title
@@ -641,6 +656,8 @@ aside.side-navi {
     margin: 0 0 15px 0;
     border-top: 1px solid $blue;
     text-decoration: none;
+    max-width: 720px;
+    margin: 0 auto;
 
     @include respond-to($md) {
         // height: 85px;
@@ -660,8 +677,8 @@ aside.side-navi {
 
         .description {
             color: $black;
-            font-size: 20px;
-            font-weight: 600;
+            font-size: $font-size--xlarge;
+            font-weight: $font-weight--medium;
         }
 
         .owner,
@@ -675,7 +692,7 @@ aside.side-navi {
         justify-content: center;
         align-items: center;
         padding: 0 10px;
-        font-size: 20px;
+        font-size: $font-size--xlarge;
 
         .green {
             color: $green;
@@ -686,6 +703,267 @@ aside.side-navi {
         }
     }
 }
+
+.finance-list {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    padding: 10px 0 0px;
+    margin: 0 0 15px 0;
+    border-top: 1px solid $blue;
+    text-decoration: none;
+
+    @include respond-to($sm) {
+        padding: 10px 7px 0;
+    }
+
+    @include respond-to($md) {
+        padding: 10px 0px 0;
+    }
+
+    @include respond-to($lg) {
+        padding: 10px 7px 0;
+    }
+
+    .left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 0 15px 0 0;
+
+        .left-content {
+            padding: 5px 0;
+        }
+
+        .date {
+            width: 30px;
+            padding: 0 10px 0 0;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .account {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            color: $grey;
+        }
+
+        .description {
+            width: 100%;
+            color: $black;
+            font-size: $font-size--large;
+            font-weight: $font-weight--medium;
+            padding: 0 0 5px;
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .right-content {
+            width: 100%;
+        }
+
+        .amount {
+            text-align: right;
+            font-size: 20px;
+        }
+
+        .green {
+            color: $green;
+        }
+
+        .red {
+            color: $red;
+
+            span {
+                color: $red;
+            }
+        }
+    }
+} //.finance-list
+
+.fixed-cost-list {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    padding: 10px 0 0px;
+    margin: 0 0 15px 0;
+    border-top: 1px solid $blue;
+    text-decoration: none;
+
+    @include respond-to($sm) {
+        padding: 10px 7px 0;
+    }
+
+    @include respond-to($md) {
+        padding: 10px 0px 0;
+    }
+
+    @include respond-to($lg) {
+        padding: 10px 7px 0;
+    }
+
+    .left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 0 15px 0 0;
+
+        .left-content {
+            padding: 5px 0;
+        }
+
+        .date {
+            width: 30px;
+            padding: 0 10px 0 0;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .account,
+        .iteration,
+        .nextValuation {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            color: $grey;
+        }
+
+        .description {
+            width: 100%;
+            color: $black;
+            font-size: $font-size--large;
+            font-weight: $font-weight--medium;
+            padding: 0 0 5px;
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .right-content {
+            width: 100%;
+        }
+
+        .amount {
+            text-align: right;
+            font-size: 20px;
+        }
+
+        .green {
+            color: $green;
+        }
+
+        .red {
+            color: $red;
+
+            span {
+                color: $red;
+            }
+        }
+    }
+} //.fixed-cost-list
+
+.bill-list {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    padding: 10px 0 0px;
+    margin: 0 0 15px 0;
+    border-top: 1px solid $blue;
+    text-decoration: none;
+
+    @include respond-to($sm) {
+        padding: 10px 7px 0;
+    }
+
+    @include respond-to($md) {
+        padding: 10px 0px 0;
+    }
+
+    @include respond-to($lg) {
+        padding: 10px 7px 0;
+    }
+
+    .left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 0 15px 0 0;
+
+        .left-content {
+            padding: 5px 0;
+        }
+
+        .payed {
+            font-size: $font-size--highlight;
+            padding: 0 10px 0 5px;
+            color: rgba($grey, 0.3);
+
+            &.payedTrue {
+                color: $green;
+            }
+        }
+
+        .description {
+            width: 100%;
+            color: $black;
+            font-size: $font-size--large;
+            font-weight: $font-weight--medium;
+            padding: 0 0 5px;
+        }
+
+        .dueDate,
+        .account {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            color: $grey;
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .right-content {
+            width: 100%;
+        }
+
+        .amount {
+            text-align: right;
+            font-size: 20px;
+        }
+
+        .green {
+            color: $green;
+        }
+
+        .red {
+            color: $red;
+
+            span {
+                color: $red;
+            }
+        }
+    }
+} //.bill-list
 
 .backdrop {
     position: absolute;

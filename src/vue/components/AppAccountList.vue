@@ -14,7 +14,9 @@
             </div>
 
             <div class="right">
-                <span class="balance" :class="balanceClass(item.balance)">{{ item.balance }}€</span>
+                <span class="balance" :class="balanceClass(item.balance)"
+                    >{{ getFormatedBalance(item.balance) }}€</span
+                >
             </div>
         </router-link>
         <!-- 
@@ -73,6 +75,9 @@ export default {
         balanceClass(balance) {
             return parseInt(balance) < 0 ? "red" : "green";
         },
+        getFormatedBalance(balance) {
+            return this.$numeral(balance).format("0,0.00");
+        },
         convertType(type) {
             if (type == "checking") {
                 return "Girokonto";
@@ -90,9 +95,9 @@ export default {
             }
             for (const [key, value] of Object.entries(accounts)) {
                 let _key = parseInt(key) + currentLength;
-                if (value.balance) {
-                    value.balance = this.$numeral(value.balance).format("0,0.00");
-                }
+                // if (value.balance) {
+                //     value.balance = this.$numeral(value.balance).format("0,0.00");
+                // }
                 Vue.set(this.itemList, _key, value);
             }
         },

@@ -1,125 +1,132 @@
 <template>
     <div id="site-login" class="site">
-        <h2 class="welcome">Herzlich Willkommen bei deinem</h2>
-        <h1 class="title">Finaneger</h1>
-        <!-- <h1 style="text-align: center">Logoplatzhalter</h1> -->
+        <div class="site-inner">
+            <h2 class="welcome">Herzlich Willkommen bei deinem</h2>
+            <h1 class="title">Finaneger</h1>
+            <!-- <h1 style="text-align: center">Logoplatzhalter</h1> -->
 
-        <form
-            action="token"
-            method="POST"
-            id="form-log-in"
-            class="form form-log-in"
-            v-bind:class="{ error: err_LoginForm }"
-        >
-            <h2 class="form-title">Melde dich an!</h2>
-            <span class="form-error">Fehlerhafte Eingabe! E-Mail oder Passwort falsch!</span>
+            <form
+                action="token"
+                method="POST"
+                id="form-log-in"
+                class="form form-log-in"
+                v-bind:class="{ error: err_LoginForm }"
+            >
+                <h2 class="form-title">Melde dich an!</h2>
+                <span class="form-error">Fehlerhafte Eingabe! E-Mail oder Passwort falsch!</span>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field label="E-Mail" type="email" name="email" v-model="login_mail">
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="E-Mail"
+                            type="email"
+                            name="email"
+                            v-model="login_mail"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Passwort"
-                        type="password"
-                        name="password"
-                        v-model="login_password"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Passwort"
+                            type="password"
+                            name="password"
+                            v-model="login_password"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="hash" :value="hash" />
-            <input type="hidden" name="api_key" :value="api_key" />
+                <input type="hidden" name="hash" :value="hash" />
+                <input type="hidden" name="api_key" :value="api_key" />
 
-            <input
-                type="submit"
-                value="Login"
-                class="button button--default"
-                v-on:click="submitLogin"
-            />
-        </form>
+                <input
+                    type="submit"
+                    value="Login"
+                    class="button button--default"
+                    v-on:click="submitLogin"
+                />
+            </form>
 
-        <div class="divider"></div>
+            <div class="divider"></div>
 
-        <form
-            action="user"
-            id="form-register"
-            method="POST"
-            class="form form-register"
-            v-bind:class="{ error: err_RegisterForm }"
-        >
-            <h2 class="form-title">Oder registriere dich jetzt!</h2>
-            <span class="form-error">{{ err_RegisterForm }}</span>
+            <form
+                action="user"
+                id="form-register"
+                method="POST"
+                class="form form-register"
+                v-bind:class="{ error: err_RegisterForm }"
+            >
+                <h2 class="form-title">Oder registriere dich jetzt!</h2>
+                <span class="form-error">{{ err_RegisterForm }}</span>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="E-Mail"
-                        type="email"
-                        :error="err_RegisterMail"
-                        name="email"
-                        v-model="register_mail"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="E-Mail"
+                            type="email"
+                            :error="err_RegisterMail"
+                            name="email"
+                            v-model="register_mail"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Vorname"
-                        :error="err_RegisterName"
-                        name="name"
-                        v-model="register_name"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Vorname"
+                            :error="err_RegisterName"
+                            name="name"
+                            v-model="register_name"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Nachname"
-                        :error="err_RegisterSurname"
-                        name="surname"
-                        v-model="register_surname"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Nachname"
+                            :error="err_RegisterSurname"
+                            name="surname"
+                            v-model="register_surname"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <comp-text-field
-                        label="Passwort"
-                        type="password"
-                        :error="err_RegisterPassword"
-                        name="password"
-                        v-model="register_password"
-                    >
-                    </comp-text-field>
+                <div class="row">
+                    <div class="col">
+                        <comp-text-field
+                            label="Passwort"
+                            type="password"
+                            :error="err_RegisterPassword"
+                            name="password"
+                            v-model="register_password"
+                        >
+                        </comp-text-field>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="hash" :value="hash" />
-            <input type="hidden" name="api_key" :value="api_key" />
+                <input type="hidden" name="hash" :value="hash" />
+                <input type="hidden" name="api_key" :value="api_key" />
 
-            <div class="row">
-                <div class="col">
-                    <input
-                        type="submit"
-                        value="Registrieren"
-                        class="button button--default"
-                        v-on:click="submitRegister"
-                    />
+                <div class="row">
+                    <div class="col">
+                        <input
+                            type="submit"
+                            value="Registrieren"
+                            class="button button--default"
+                            v-on:click="submitRegister"
+                        />
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </template>
 

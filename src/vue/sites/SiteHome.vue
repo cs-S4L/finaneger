@@ -1,46 +1,51 @@
 <template>
     <div id="site-home" class="site">
-        <h2 class="site-title">Herzlich Willkommen</h2>
-        <div class="row">
-            <div class="col noPadding col-total center-content">
-                <div class="circle">
-                    <div class="circle-content">
-                        <h2 class="total-heading">Alle Konten</h2>
-                        <span class="total" :class="totalClass">{{ total }}€</span>
+        <div class="site-inner">
+            <h2 class="site-title">Herzlich Willkommen</h2>
+            <div class="row">
+                <div class="col noPadding col-total center-content">
+                    <div class="circle">
+                        <div class="circle-content">
+                            <h2 class="total-heading">Alle Konten</h2>
+                            <span class="total" :class="totalClass">{{ total }}€</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col col-account-list noPadding">
-                <app-accountList :accounts="accounts" :bol_loadMore_prop="false"></app-accountList>
-            </div>
-        </div>
-
-        <div class="row row-shortcuts full-width-col">
-            <div class="col col-shortcuts noPadding center-content">
-                <router-link :to="`finanzen/edit/create`" class="shortcut">
-                    <button class="button button--default button--big">
-                        Einnahme/Ausgabe erstellen
-                    </button>
-                </router-link>
+            <div class="row">
+                <div class="col col-account-list noPadding">
+                    <app-accountList
+                        :accounts="accounts"
+                        :bol_loadMore_prop="false"
+                    ></app-accountList>
+                </div>
             </div>
 
-            <div class="col col-shortcuts noPadding center-content">
-                <router-link :to="`finanzen/edit/create`" class="shortcut">
-                    <button class="button button--default button--big">
-                        Fixkosten hinzufügen
-                    </button>
-                </router-link>
-            </div>
+            <div class="row row-shortcuts full-width-col">
+                <div class="col col-shortcuts noPadding center-content">
+                    <router-link :to="`finanzen/edit/create`" class="shortcut">
+                        <button class="button button--default button--big">
+                            Einnahme/Ausgabe erstellen
+                        </button>
+                    </router-link>
+                </div>
 
-            <div class="col col-shortcuts noPadding center-content">
-                <router-link :to="`finanzen/edit/create`" class="shortcut">
-                    <button class="button button--default button--big">
-                        Rechnung hinzufügen
-                    </button>
-                </router-link>
+                <div class="col col-shortcuts noPadding center-content">
+                    <router-link :to="`finanzen/edit/create`" class="shortcut">
+                        <button class="button button--default button--big">
+                            Fixkosten hinzufügen
+                        </button>
+                    </router-link>
+                </div>
+
+                <div class="col col-shortcuts noPadding center-content">
+                    <router-link :to="`finanzen/edit/create`" class="shortcut">
+                        <button class="button button--default button--big">
+                            Rechnung hinzufügen
+                        </button>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>

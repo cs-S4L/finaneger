@@ -1,15 +1,17 @@
 <template>
     <div id="site-accounts" class="site">
-        <h2 class="site-title">Konten</h2>
+        <div class="site-inner">
+            <h2 class="site-title">Konten</h2>
 
-        <app-accountList></app-accountList>
+            <app-accountList></app-accountList>
 
-        <router-link
-            :to="'/konten/edit/create'"
-            class="material-icons button button--fixed button--round button--white"
-        >
-            add
-        </router-link>
+            <router-link
+                :to="'/konten/edit/create'"
+                class="material-icons button button--fixed button--round button--blue-outline"
+            >
+                add
+            </router-link>
+        </div>
     </div>
 </template>
 

@@ -1,15 +1,17 @@
 <template>
     <div id="site-bills" class="site">
-        <h2 class="site-title">Rechnungen</h2>
+        <div class="site-inner">
+            <h2 class="site-title">Rechnungen</h2>
 
-        <app-billList></app-billList>
+            <app-billList></app-billList>
 
-        <router-link
-            :to="'rechnungen/edit/create'"
-            class="material-icons button button--fixed button--round button--white"
-        >
-            add
-        </router-link>
+            <router-link
+                :to="'rechnungen/edit/create'"
+                class="material-icons button button--fixed button--round button--blue-outline"
+            >
+                add
+            </router-link>
+        </div>
     </div>
 </template>
 

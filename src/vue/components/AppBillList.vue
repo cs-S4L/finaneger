@@ -1,17 +1,32 @@
 <template>
     <div id="app-billList" class="">
         <router-link
-            class="list-item"
+            class="bill-list"
             :key=""
             v-for="(item, id) in itemList"
             :id="id"
             :to="`/rechnungen/edit/${item.id}`"
         >
-            <div class="header">
-                <span class="right">{{ getFormatedDate(item.dueDate) }}</span>
+            <div class="left">
+                <!-- <p class="left-content date">{{ getFormatedDate(item.nextValuation) }}</p> -->
+                <i class="material-icons payed" :class="{ payedTrue: item.payed }"
+                    >check_circle_outline</i
+                >
+                <div class="text">
+                    <p class="left-content description">{{ item.description }}</p>
+                    <p class="left-content dueDate">
+                        Fälligkeit: {{ getFormatedDate(item.dueDate) }}
+                    </p>
+                    <p class="left-content account" v-if="item.account">
+                        {{ getAccountName(item.account) }}
+                    </p>
+                    <!-- <p class="left-content account">{{ getAccountName(item.account) }}</p> -->
+                </div>
             </div>
-            <div class="text">{{ item.description }}</div>
-            <div class="number currency">{{ item.amount }}</div>
+
+            <div class="right">
+                <span class="right-content amount">{{ getFormatedBalance(item.amount) }}€</span>
+            </div>
         </router-link>
 
         <button
@@ -28,6 +43,7 @@
 import Vue from "vue";
 
 import { store } from "../App.vue";
+import { accounts } from "../../js/imports/accounts.js";
 import { bills } from "../../js/imports/bills.js";
 
 export default {
@@ -35,7 +51,8 @@ export default {
         return {
             itemList: {},
             offset: 0,
-            bol_loadMore: true
+            bol_loadMore: true,
+            accounts: false
         };
     },
     components: {},
@@ -43,6 +60,16 @@ export default {
     methods: {
         getFormatedDate: date => {
             return moment(date, ["DD.MM.YYYY", "YYYY.MM.DD"]).format("DD.MM.YYYY");
+        },
+        getFormatedBalance(balance) {
+            return this.$numeral(balance).format("0,0.00");
+        },
+        getAccountName: function(account) {
+            if (this.accounts[account]) {
+                return this.accounts[account].description;
+            } else {
+                return "";
+            }
         },
         handleDataResponse: function(data) {
             let currentLength = 0;
@@ -52,7 +79,6 @@ export default {
             }
 
             data = JSON.parse(data);
-            console.log(data);
             if (this.itemList) {
                 currentLength = Object.entries(this.itemList).length;
             }
@@ -70,6 +96,19 @@ export default {
         loadMore: function(e) {
             bills.getBills(store.userToken, this.handleDataResponse, this.offset);
         }
+    },
+    beforeCreate: function() {
+        accounts.getAccounts(
+            store.userToken,
+            data => {
+                if (data) {
+                    data = JSON.parse(data);
+                    this.accounts = data;
+                }
+            },
+            0,
+            ""
+        );
     },
     mounted: function() {
         bills.getBills(store.userToken, this.handleDataResponse);
