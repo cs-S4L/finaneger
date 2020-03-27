@@ -68,6 +68,8 @@ export default {
                         store.userToken = "";
                         Cookies.remove("sessionId");
                         Cookies.remove("userId");
+                        Cookies.remove("username");
+                        Cookies.remove("usersurname");
                         this.$router.push({ path: "/" });
                         location.reload();
                     }
