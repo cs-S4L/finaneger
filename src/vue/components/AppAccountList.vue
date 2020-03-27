@@ -19,22 +19,6 @@
                 >
             </div>
         </router-link>
-        <!-- 
-        <div class="divider"></div>
-
-        <router-link
-            class="list-item"
-            :key=""
-            v-for="(item, id) in itemList"
-            :id="id"
-            :to="`/konten/edit/${item.id}`"
-        >
-            <div class="header">
-                <span class="left">{{ convertType(item.type) }}</span>
-            </div>
-            <div class="text">{{ item.description }}</div>
-            <div class="number currency">{{ item.balance }}</div>
-        </router-link> -->
 
         <button
             class="button button--blue"

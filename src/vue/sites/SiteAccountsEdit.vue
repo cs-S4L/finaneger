@@ -7,7 +7,7 @@
                 <span class="form-error">{{ formError }}</span>
 
                 <div class="row">
-                    <div class="col noPadding">
+                    <div class="col">
                         <comp-text-field
                             label="Bezeichnung"
                             name="description"
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col noPadding">
+                    <div class="col">
                         <comp-select-field
                             label="Typ"
                             name="type"
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col noPadding">
+                    <div class="col">
                         <comp-text-field
                             label="Kontoinhaber"
                             name="owner"
@@ -109,25 +109,29 @@
 
                 <input type="hidden" name="id" :value="id" />
 
-                <input
-                    type="button"
-                    :value="submitValue"
-                    class="button button--default"
-                    v-on:click="submitEdit"
-                />
-                <input
-                    type="button"
-                    value="Abbrechen"
-                    class="button button--white"
-                    v-on:click="abortEdit"
-                />
-                <input
-                    type="button"
-                    value="Löschen"
-                    class="button button--red"
-                    v-on:click="deleteAccount"
-                    v-if="id != 'create'"
-                />
+                <div class="row">
+                    <div class="col left-content">
+                        <input
+                            type="button"
+                            :value="submitValue"
+                            class="button button--default button--form"
+                            v-on:click="submitEdit"
+                        />
+                        <input
+                            type="button"
+                            value="Abbrechen"
+                            class="button button--white button--form"
+                            v-on:click="abortEdit"
+                        />
+                        <input
+                            type="button"
+                            value="Löschen"
+                            class="button button--red button--form"
+                            v-on:click="deleteAccount"
+                            v-if="id != 'create'"
+                        />
+                    </div>
+                </div>
             </form>
         </div>
     </div>
