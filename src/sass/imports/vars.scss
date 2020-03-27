@@ -15,13 +15,15 @@ $lightgrey: #dddddd;
 $white: #ffffff;
 $green: #29ba66;
 $red: #e05353;
-$blue: #5276c7;
+$blue: #03a9f4;
 
 $error: #721c24;
 
 $background--grey: #f2f6f8;
+$background--dark-grey: #e4eaee;
 
 $border-color--1: #909090;
+$border-color--2: #c6d2d9;
 
 /**
     Font-Sizes
@@ -34,6 +36,7 @@ $font-size--xlarge: 20px;
 $font-size--xxlarge: 24px; //h2
 $font-size--xxxlarge: 28px;
 $font-size--highlight: 32px; //h1
+$font-size--xxxhighlight: 50px; //h2
 /**
     Font-Weights
 **/
@@ -55,6 +58,12 @@ $aside-size: 200px;
 // $box-shadow--1: 5px 5px 3px #00000029;
 $box-shadow--1: 5px 5px 3px rgba(0, 0, 0, 0.15);
 $box-shadow--2: 0px 1px 5px #999999;
+
+/**
+	Text-Shadows
+**/
+$text-shadow--1: 0px 1px 1px #555;
+$text-shadow--2: 0px 1px 1px #eee;
 
 /**
     Z-Indexes

@@ -31,6 +31,9 @@ import { store } from "../App.vue";
 import { accounts } from "../../js/imports/accounts.js";
 
 export default {
+    props: {
+        accounts: false
+    },
     data: function() {
         return {
             itemList: {},
@@ -88,6 +91,9 @@ export default {
         }
     },
     mounted: function() {
+        // if (this.accounts) {
+        //     this.ha;
+        // }
         accounts.getAccounts(store.userToken, data => {
             if (data) {
                 this.handleDataResponse(data);

@@ -1,0 +1,53 @@
+#site-home {
+    .col-total {
+        margin: 10px 0 0;
+
+        .circle {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            background: rgba($blue, 0.3);
+            border: 1px solid $border-color--2;
+            padding: 30px;
+            border-radius: 100%;
+            min-width: 200px;
+
+            .circle-content {
+                text-align: center;
+            }
+
+            &:after {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+                background: rgba(0, 0, 0, 0.3);
+            }
+        }
+        .total-heading {
+            font-size: $font-size--xxlarge;
+            padding: 0 0 5px 0;
+            text-align: center;
+            width: 100%;
+            text-shadow: $text-shadow--2;
+        }
+
+        .total {
+            font-size: $font-size--xxxhighlight;
+            text-align: center;
+            text-shadow: $text-shadow--1;
+
+            &.red {
+                color: $red;
+            }
+
+            &.green {
+                color: $green;
+            }
+        }
+    } //.col-total
+
+    .col-account-list {
+        margin: 25px 0 0 0;
+    }
+}

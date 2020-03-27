@@ -107,7 +107,7 @@ h3 {
 }
 
 .button {
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     font-size: $font-size--medium;
     font-weight: $font-weight--medium;
@@ -121,7 +121,7 @@ h3 {
     &--default {
         color: $white;
         background: $blue;
-        border: 1px solid $grey;
+        border: 1px solid $border-color--2;
     }
 
     &--white {
@@ -166,6 +166,10 @@ h3 {
 
     .form-title {
         margin: 20px 0 10px 0;
+        text-align: center;
+    }
+
+    .form-title-left {
         text-align: left;
     }
 
@@ -228,7 +232,7 @@ h3 {
                 padding: 0 5px;
                 font-size: $font-size--medium;
                 border: 1px solid #707070;
-                border-radius: 3px;
+                border-radius: 2px;
                 box-shadow: $box-shadow--1;
             }
 
@@ -363,6 +367,11 @@ a {
         }
         &.noPadding {
             padding: 0;
+        }
+
+        &.center-content {
+            display: flex;
+            justify-content: center;
         }
     }
 }
