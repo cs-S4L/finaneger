@@ -8,7 +8,6 @@
             :to="`fixkosten/edit/${item.id}`"
         >
             <div class="left">
-                <!-- <p class="left-content date">{{ getFormatedDate(item.nextValuation) }}</p> -->
                 <div class="text">
                     <p class="left-content description">{{ item.description }}</p>
                     <p class="left-content account">{{ getAccountName(item.account) }}</p>

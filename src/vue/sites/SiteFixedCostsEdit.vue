@@ -10,8 +10,6 @@
                 class="form form-finance"
                 v-bind:class="{ error: formError }"
             >
-                <!-- <h2 class="form-title">Melde dich an!</h2> -->
-
                 <span class="form-error">{{ formError }}</span>
 
                 <div class="row">
@@ -65,15 +63,6 @@
                         >
                         </comp-select-field>
                     </div>
-                    <!--<div class="col">
-                    <comp-select-field
-                        label="Konto Ausgang"
-                        name="accountOut"
-                        :error="'err_AccountOut'"
-                        :options="accountsOptions"
-                    >
-                    </comp-select-field>
-                </div>-->
                 </div>
 
                 <div class="row">
@@ -219,7 +208,6 @@ export default {
             }
         },
         handleSubmitData: function(data) {
-            console.log(data);
             if (data) {
                 data = JSON.parse(data);
                 if (data.success) {
@@ -232,7 +220,6 @@ export default {
         handleError: function(data) {
             if (data.error) {
                 for (const [key, value] of Object.entries(data.error)) {
-                    console.log(key, value);
                     if (key in this.item) {
                         this.item[key].error = value;
                     }
@@ -287,7 +274,6 @@ export default {
             fixedCosts.getFixedCost(
                 store.userToken,
                 data => {
-                    console.log(data);
                     if (data) {
                         data = JSON.parse(data);
                         if (data.success) {

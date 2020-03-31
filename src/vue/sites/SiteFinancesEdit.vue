@@ -5,8 +5,6 @@
             <h2 class="site-title" v-if="id == 'create'">Einnahme/Ausgabe erstellen</h2>
 
             <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
-                <!-- <h2 class="form-title">Melde dich an!</h2> -->
-
                 <span class="form-error">{{ formError }}</span>
 
                 <div class="row">
@@ -91,6 +89,22 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col" v-if="item.fixedCost.value">
+                        <router-link
+                            :to="`/fixkosten/edit/${item.fixedCost.value}`"
+                            class="form-link"
+                        >
+                            Zum Fixkostenpunkt
+                        </router-link>
+                    </div>
+                    <div class="col" v-if="item.bill.value">
+                        <router-link :to="`/rechnungen/edit/${item.bill.value}`" class="form-link">
+                            Zur Rechnung
+                        </router-link>
+                    </div>
+                </div>
+
                 <input type="hidden" name="id" :value="id" />
 
                 <div class="row">
@@ -161,6 +175,12 @@ export default {
                 note: {
                     value: "",
                     error: ""
+                },
+                fixedCost: {
+                    value: false
+                },
+                bill: {
+                    value: false
                 }
             },
             accountOptions: []

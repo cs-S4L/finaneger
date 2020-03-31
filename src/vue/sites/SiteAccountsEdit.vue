@@ -1,7 +1,8 @@
 <template>
     <div id="site-accountsEdit" class="site">
         <div class="site-inner">
-            <h2 class="site-title">Konto editieren</h2>
+            <h2 class="site-title" v-if="id != 'create'">Konto editieren</h2>
+            <h2 class="site-title" v-if="id == 'create'">Konto erstellen</h2>
 
             <form id="form" class="form form-finance" v-bind:class="{ error: formError }">
                 <span class="form-error">{{ formError }}</span>

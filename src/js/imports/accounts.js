@@ -7,19 +7,12 @@ class Accounts {
     }
 
     getAccounts(userToken, success, offset = 0, limit = this.limit) {
-        const params = {
-            userToken,
-            offset,
-            limit
-        };
+        const params = { userToken, offset, limit };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 
     getAccount(userToken, success, id) {
-        const params = {
-            userToken,
-            id
-        };
+        const params = { userToken, id };
         Api.submitAjax(params, this.endpoint, "get", "POST", success);
     }
 

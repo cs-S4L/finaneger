@@ -35,7 +35,6 @@ module.exports = {
             jQuery: "jquery",
             Cookies: "js-cookie",
             moment: "moment"
-            //   import Cookies from 'js-cookie'
         }),
         new momentLocalesPlugin({
             localesToKeep: ["de-DE"]

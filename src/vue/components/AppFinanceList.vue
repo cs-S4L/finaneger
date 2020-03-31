@@ -83,7 +83,6 @@ export default {
             }
 
             data = JSON.parse(data);
-            console.log(data);
             if (this.itemList) {
                 currentLength = Object.entries(this.itemList).length;
             }

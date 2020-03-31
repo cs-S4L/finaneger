@@ -1,7 +1,7 @@
 <template>
     <div id="site-finances" class="site">
         <div class="site-inner">
-            <h2 class="site-title">Ein-/Ausgabe</h2>
+            <h2 class="site-title">Ein-/Ausgaben</h2>
 
             <app-financeList></app-financeList>
 

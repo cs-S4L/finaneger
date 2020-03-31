@@ -8,7 +8,6 @@
             :to="`/rechnungen/edit/${item.id}`"
         >
             <div class="left">
-                <!-- <p class="left-content date">{{ getFormatedDate(item.nextValuation) }}</p> -->
                 <i class="material-icons payed" :class="{ payedTrue: item.payed }"
                     >check_circle_outline</i
                 >
@@ -20,7 +19,6 @@
                     <p class="left-content account" v-if="item.account">
                         {{ getAccountName(item.account) }}
                     </p>
-                    <!-- <p class="left-content account">{{ getAccountName(item.account) }}</p> -->
                 </div>
             </div>
 
@@ -88,7 +86,6 @@ export default {
             }
             var dataLength = Object.keys(data).length;
             this.offset += dataLength;
-            console.log(dataLength);
             if (dataLength < bills.limit) {
                 this.bol_loadMore = false;
             }

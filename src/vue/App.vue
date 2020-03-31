@@ -15,8 +15,6 @@ import SiteLogin from "./sites/SiteLogin.vue";
 
 import { Api } from "../js/imports/finanegerApi.js";
 
-// moment.locale("de");
-
 export const store = Vue.observable({
     userToken: "",
     auth_key: "",

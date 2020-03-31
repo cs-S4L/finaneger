@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="col noPadding col-shortcuts center-content">
-                    <router-link :to="`finanzen/edit/create`" class="shortcut">
+                    <router-link :to="`fixkosten/edit/create`" class="shortcut">
                         <button class="button button--default button--big">
                             Fixkosten hinzufügen
                         </button>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col noPadding col-shortcuts center-content">
-                    <router-link :to="`finanzen/edit/create`" class="shortcut">
+                    <router-link :to="`rechnungen/edit/create`" class="shortcut">
                         <button class="button button--default button--big">
                             Rechnung hinzufügen
                         </button>

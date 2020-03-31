@@ -79,9 +79,6 @@ export default {
             }
             for (const [key, value] of Object.entries(accounts)) {
                 let _key = parseInt(key) + currentLength;
-                // if (value.balance) {
-                //     value.balance = this.$numeral(value.balance).format("0,0.00");
-                // }
                 Vue.set(this.itemList, _key, value);
             }
         },

@@ -17,6 +17,7 @@ import SiteFixedCostsEdit from "../vue/sites/SiteFixedCostsEdit.vue";
 
 Vue.use(VueRouter);
 
+// Link routes to vue components
 const router = new VueRouter({
     routes: [
         { path: "/", component: SiteHome },
